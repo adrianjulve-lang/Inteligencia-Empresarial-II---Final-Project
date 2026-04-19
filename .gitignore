@@ -1,0 +1,17 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# PDFs duplicados en la raíz (los docs están en docs/)
+/TN01_Strategic_Intelligence_v2.pdf
+/TN02_War_Gaming_Scenario_Planning_IMPROVED_V2 (3).pdf
+/TN03_Blind_Spots_Alternative_Data_EN_Enhanced (3).pdf
+/TN04_Defense_&Cyber_Enhanced.pdf
+/TN05_Financial_Services_v2.pdf
+/TN10_Agentic_Foundations_MultiAgent_EN_VF.pdf
+
+# Temporales
+*.tmp
+*.log
+~$*
