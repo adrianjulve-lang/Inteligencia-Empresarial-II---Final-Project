@@ -1,202 +1,258 @@
 {
+  "fecha": "2026-04-21T14:09:03.841385",
   "fuentes": [
     {
       "id": 1,
-      "nombre": "CNMC — Informe Sanitas",
-      "tipo": "Primaria/Pública",
-      "lead_time": "1 mes",
-      "framework_link": "Capability",
-      "estado": "🟡 Pendiente",
-      "evidencia_url": "",
-      "descripcion": "Informe regulatorio CNMC sobre Sanitas",
-      "recopilador": "",
-      "fecha_recopilacion": ""
+      "nombre": "Webs corporativas Sanitas/Adeslas/Asisa/HLA",
+      "tipo": "OSINT",
+      "lead_time": "1-2 dias",
+      "framework_link": "Awareness/Capability",
+      "url": "sanitas.es, segurcaixaadeslas.es, asisa.es, grupohla.com",
+      "evidencia": "Estructuras corporativas, red asistencial, servicios",
+      "estado": "completado"
     },
     {
-      "id": 1,
-      "nombre": "CNMC — Informe Adeslas",
-      "tipo": "Primaria/Pública",
+      "id": 2,
+      "nombre": "Informes anuales (Sanitas 2024, Mutua 2024-25, ASISA 2024-25)",
+      "tipo": "Primaria/Publica",
       "lead_time": "1 mes",
       "framework_link": "Capability",
-      "estado": "🟡 Pendiente",
-      "evidencia_url": "",
-      "descripcion": "Informe regulatorio CNMC sobre Adeslas",
-      "recopilador": "",
-      "fecha_recopilacion": ""
+      "url": "informeanual.sanitas.es, grupomutua.es, asisa.es",
+      "evidencia": "Financieros completos verificados",
+      "estado": "completado"
     },
     {
-      "id": 1,
-      "nombre": "CNMC — Informe Asisa",
-      "tipo": "Primaria/Pública",
-      "lead_time": "1 mes",
+      "id": 3,
+      "nombre": "BUPA Group Results FY2024 + H1 2025",
+      "tipo": "Primaria/Publica",
+      "lead_time": "Trimestral",
       "framework_link": "Capability",
-      "estado": "🟡 Pendiente",
-      "evidencia_url": "",
-      "descripcion": "Informe regulatorio CNMC sobre Asisa",
-      "recopilador": "",
-      "fecha_recopilacion": ""
+      "url": "bupa.com/news-and-press",
+      "evidencia": "Revenue ELA 5.427M GBP, estructura Mexico, M&A",
+      "estado": "completado"
     },
     {
       "id": 4,
-      "nombre": "BOE — Licitaciones sanitarias",
-      "tipo": "Primaria/Pública",
-      "lead_time": "2 semanas",
+      "nombre": "UNESPA informe diciembre 2025",
+      "tipo": "Primaria/Publica",
+      "lead_time": "Mensual",
+      "framework_link": "Contexto",
+      "url": "unespa.es",
+      "evidencia": "Primas 13.443M EUR, 13M asegurados",
+      "estado": "completado"
+    },
+    {
+      "id": 6,
+      "nombre": "DGSFP prioridades supervision 2023-2025",
+      "tipo": "Publica/Regulatoria",
+      "lead_time": "Anual",
       "framework_link": "Capability",
-      "estado": "🟡 Pendiente",
-      "evidencia_url": "",
-      "descripcion": "Licitaciones de servicios sanitarios en últimos 6 meses",
-      "recopilador": "",
-      "fecha_recopilacion": ""
+      "url": "dgsfp.mineco.gob.es",
+      "evidencia": "ALOSSEAR, sandbox, sin tope primas",
+      "estado": "completado"
     },
     {
       "id": 8,
-      "nombre": "Registro Mercantil — Sanitas",
+      "nombre": "Fundacion Espriu / Compartir (ASISA int.)",
       "tipo": "OSINT",
       "lead_time": "2 semanas",
-      "framework_link": "Capability",
-      "estado": "🟡 Pendiente",
-      "evidencia_url": "",
-      "descripcion": "Estructura accionarial, cambios en junta directiva",
-      "recopilador": "",
-      "fecha_recopilacion": ""
+      "framework_link": "Awareness",
+      "url": "fundacionespriu.coop, compartir.coop",
+      "evidencia": "ASISA presente en Mexico, Nicaragua, Italia, Portugal",
+      "estado": "completado"
     },
     {
-      "id": 8,
-      "nombre": "Registro Mercantil — Adeslas",
+      "id": 9,
+      "nombre": "IBM Case Study — Adeslas",
       "tipo": "OSINT",
-      "lead_time": "2 semanas",
+      "lead_time": "1-2 dias",
       "framework_link": "Capability",
-      "estado": "🟡 Pendiente",
-      "evidencia_url": "",
-      "descripcion": "Estructura accionarial, cambios en junta directiva",
-      "recopilador": "",
-      "fecha_recopilacion": ""
+      "url": "ibm.com/case-studies/segurcaixa-adeslas",
+      "evidencia": "Modernizacion API Connect v10",
+      "estado": "completado"
     },
     {
-      "id": 8,
-      "nombre": "Registro Mercantil — Asisa",
-      "tipo": "OSINT",
-      "lead_time": "2 semanas",
-      "framework_link": "Capability",
-      "estado": "🟡 Pendiente",
-      "evidencia_url": "",
-      "descripcion": "Estructura accionarial, cambios en junta directiva",
-      "recopilador": "",
-      "fecha_recopilacion": ""
-    },
-    {
-      "id": 2,
-      "nombre": "LinkedIn Job Postings — Sanitas",
-      "tipo": "Alt.Data",
-      "lead_time": "Tiempo real",
+      "id": 5,
+      "nombre": "Prensa financiera (El Economista, El Espanol, OKDiario)",
+      "tipo": "Primaria",
+      "lead_time": "Semanal",
       "framework_link": "Motivation",
-      "estado": "🟡 Pendiente",
-      "evidencia_url": "",
-      "descripcion": "Ofertas de empleo: crecimiento de headcount, roles de expansión",
-      "recopilador": "",
-      "fecha_recopilacion": ""
-    },
-    {
-      "id": 2,
-      "nombre": "LinkedIn Job Postings — Adeslas",
-      "tipo": "Alt.Data",
-      "lead_time": "Tiempo real",
-      "framework_link": "Motivation",
-      "estado": "🟡 Pendiente",
-      "evidencia_url": "",
-      "descripcion": "Ofertas de empleo: crecimiento de headcount, roles de expansión",
-      "recopilador": "",
-      "fecha_recopilacion": ""
-    },
-    {
-      "id": 2,
-      "nombre": "LinkedIn Job Postings — Asisa",
-      "tipo": "Alt.Data",
-      "lead_time": "Tiempo real",
-      "framework_link": "Motivation",
-      "estado": "🟡 Pendiente",
-      "evidencia_url": "",
-      "descripcion": "Ofertas de empleo: crecimiento de headcount, roles de expansión",
-      "recopilador": "",
-      "fecha_recopilacion": ""
+      "url": "eleconomista.es, elespanol.com, okdiario.com",
+      "evidencia": "Resultados, MUFACE, expansion, estrategia",
+      "estado": "completado"
     },
     {
       "id": 7,
-      "nombre": "Noticias Prensa — Sanitas",
-      "tipo": "Primaria",
-      "lead_time": "1-2 semanas",
-      "framework_link": "Awareness/Motivation",
-      "estado": "🟡 Pendiente",
-      "evidencia_url": "",
-      "descripcion": "Alianzas, expansión, estrategia comunicada públicamente",
-      "recopilador": "",
-      "fecha_recopilacion": ""
+      "nombre": "Noticias 50 Doctors (NITU, Gob QRoo, Diario Financiero)",
+      "tipo": "Alt.Data",
+      "lead_time": "Tiempo real",
+      "framework_link": "Awareness",
+      "url": "nitu.mx, qroo.gob.mx, diariofinanciero.com",
+      "evidencia": "Planes Espana: Madrid Serrano, BCN, Coruna, Malaga",
+      "estado": "completado"
     },
     {
-      "id": 7,
-      "nombre": "Noticias Prensa — Adeslas",
-      "tipo": "Primaria",
-      "lead_time": "1-2 semanas",
-      "framework_link": "Awareness/Motivation",
-      "estado": "🟡 Pendiente",
-      "evidencia_url": "",
-      "descripcion": "Alianzas, expansión, estrategia comunicada públicamente",
-      "recopilador": "",
-      "fecha_recopilacion": ""
+      "id": 10,
+      "nombre": "Tracxn + Latin Lawyer (BUPA M&A)",
+      "tipo": "Alt.Data",
+      "lead_time": "1 semana",
+      "framework_link": "Capability/Motivation",
+      "url": "tracxn.com, latinlawyer.com",
+      "evidencia": "Historial adquisiciones BUPA 2020-2025",
+      "estado": "completado"
     },
     {
-      "id": 7,
-      "nombre": "Noticias Prensa — Asisa",
-      "tipo": "Primaria",
-      "lead_time": "1-2 semanas",
-      "framework_link": "Awareness/Motivation",
-      "estado": "🟡 Pendiente",
-      "evidencia_url": "",
-      "descripcion": "Alianzas, expansión, estrategia comunicada públicamente",
-      "recopilador": "",
-      "fecha_recopilacion": ""
+      "id": 11,
+      "nombre": "Ministerio Turismo + Redaccion Medica",
+      "tipo": "Publica",
+      "lead_time": "1 mes",
+      "framework_link": "Contexto",
+      "url": "turismo.gob.es, redaccionmedica.com",
+      "evidencia": "200K turistas salud/ano, 1.000M EUR, +28% 2024",
+      "estado": "completado"
+    },
+    {
+      "id": 12,
+      "nombre": "Halcones y Palomas (Mutua Colombia)",
+      "tipo": "Alt.Data",
+      "lead_time": "Tiempo real",
+      "framework_link": "Motivation",
+      "url": "halconesypalomas.com",
+      "evidencia": "Mutua compra 100% Seguros del Estado Colombia",
+      "estado": "completado"
     }
   ],
   "amc_scores": [
     {
-      "competidor": "Sanitas",
-      "awareness": 4,
-      "awareness_evidencia": "BUPA lidera ELA, probablemente monitorea Latam",
-      "motivation": 5,
-      "motivation_evidencia": "Presión de BUPA por crecimiento, +12% ingresos",
-      "capability": 5,
-      "capability_evidencia": "Financiamiento fuerte de BUPA, estructura BUPA ELA",
-      "p_respuesta": 93.33333333333333,
-      "timeline_meses": 4,
-      "analista": "Agent AMC",
-      "fecha": "2026-04-21T09:10:13.267841"
-    },
-    {
-      "competidor": "Adeslas",
-      "awareness": 4,
-      "awareness_evidencia": "Presencia en Chile 60%, probable monitoreo de expansión",
+      "competidor": "Sanitas (BUPA)",
+      "awareness": 5,
+      "awareness_evidencia": [
+        "BUPA opera en Mexico: Vitamedica (7.500+ proveedores, 2020), Hospital Bite Medica (CDMX, 2022)",
+        "BUPA en 10+ paises Latam (Chile, Brasil, Colombia, Peru, etc.)",
+        "Sanitas lidera BUPA ELA desde Madrid — gestiona operaciones Mexico directamente",
+        "Planes de 50 Doctors para Calle Serrano (Madrid) son informacion publica"
+      ],
       "motivation": 4,
-      "motivation_evidencia": "Plan 2024-2026 de €5.5B, estrategia de diversificación",
+      "motivation_evidencia": [
+        "Ingresos +12% (2025: 3.228M EUR), record 533K nuevas polizas",
+        "Hospital Blua Valdebebas (jun 2025): diferenciacion digital",
+        "BUPA ELA = 36% beneficio grupo → presion por defender Espana",
+        "M&A activo 2025: Magnus (Polonia), Dental Star (Espana)",
+        "Motivacion dual: defensiva (proteger) + ofensiva (50 Doctors como partner)"
+      ],
       "capability": 5,
-      "capability_evidencia": "Financiamiento de CaixaBank, experiencia en Chile",
-      "p_respuesta": 86.66666666666667,
-      "timeline_meses": 6,
-      "analista": "Agent AMC",
-      "fecha": "2026-04-21T09:10:13.267850"
+      "capability_evidencia": [
+        "BUPA: ingresos ELA 5.427M GBP, ~87.000 empleados globales",
+        "Historial M&A multinacional probado (8 paises ELA)",
+        "Hospital Blua con IA (SaniTask, SaniResult), 928K consultas digitales",
+        "11.352 empleados Espana (+6%), estructura legal internacional"
+      ],
+      "p_respuesta": 87.0,
+      "timeline_meses_min": 3,
+      "timeline_meses_max": 6,
+      "tipo_respuesta": [
+        {
+          "alianza_estrategica": 0.4
+        },
+        {
+          "contraofensiva_competitiva": 0.3
+        },
+        {
+          "observacion_activa": 0.2
+        },
+        {
+          "adquisicion_inversion": 0.1
+        }
+      ],
+      "fecha": "2026-04-21"
     },
     {
-      "competidor": "Asisa",
-      "awareness": 2,
-      "awareness_evidencia": "Cobertura internacional limitada, Barcelona solo",
-      "motivation": 2,
-      "motivation_evidencia": "Crecimiento anual 7-10%, presión de competidores",
-      "capability": 4,
-      "capability_evidencia": "Red HLA integrada, presupuesto menor que Sanitas/Adeslas",
-      "p_respuesta": 53.333333333333336,
-      "timeline_meses": 8,
-      "analista": "Agent AMC",
-      "fecha": "2026-04-21T09:10:13.267854"
+      "competidor": "Adeslas (Mutua/CaixaBank)",
+      "awareness": 3,
+      "awareness_evidencia": [
+        "Latam: Chile (BCI Seguros 60%) + Colombia (Seguros del Estado 45%→100%)",
+        "NO opera en Mexico — sin contacto directo con 50 Doctors",
+        "Pero planes de 50 Doctors para Madrid son publicos",
+        "Monitorea sector hospitalario espanol por su red contratada"
+      ],
+      "motivation": 3,
+      "motivation_evidencia": [
+        "Crecimiento fuerte: Adeslas 5.950M EUR (+12,5%), beneficio +31%",
+        "Record 19M+ asegurados, 5,4M polizas",
+        "No posee hospitales → 50 Doctors podria ser PROVEEDOR, no competidor",
+        "MUFACE: nuevo contrato 2025-2027 mejora condiciones",
+        "Modelo complementario reduce urgencia de reaccion"
+      ],
+      "capability": 5,
+      "capability_evidencia": [
+        "Grupo mas grande: 9.757M EUR ingresos (2025)",
+        "CaixaBank = canal distribucion masivo",
+        "M&A internacional exitoso: Chile, Colombia",
+        "IBM partnership para modernizacion digital"
+      ],
+      "p_respuesta": 60.0,
+      "timeline_meses_min": 6,
+      "timeline_meses_max": 12,
+      "tipo_respuesta": [
+        {
+          "incorporar_red_contratada": 0.45
+        },
+        {
+          "observacion_activa": 0.3
+        },
+        {
+          "producto_premium_propio": 0.15
+        },
+        {
+          "ignorar": 0.1
+        }
+      ],
+      "fecha": "2026-04-21"
+    },
+    {
+      "competidor": "Asisa (HLA)",
+      "awareness": 3,
+      "awareness_evidencia": [
+        "ASISA tiene presencia en Mexico (confirmado Fundacion Espriu)",
+        "Tambien Nicaragua, Portugal, Italia, Suiza, Oriente Medio",
+        "ASISA Dental: 50+ clinicas internacionales",
+        "Internacionalizacion es pilar estrategico declarado",
+        "HLA Internacional Barcelona (2023, 25M EUR)"
+      ],
+      "motivation": 4,
+      "motivation_evidencia": [
+        "2025: mejor ejercicio historia (primas 1.890M EUR, +21,1%)",
+        "UNICO de los 3 que posee/opera hospitales → competidor DIRECTO",
+        "HLA opera en Madrid, Barcelona, Malaga = mismas ciudades que 50 Doctors",
+        "155M EUR invertidos en modernizacion HLA desde 2020",
+        "Amenaza directa al core business (gestion hospitalaria)"
+      ],
+      "capability": 3,
+      "capability_evidencia": [
+        "Facturacion >2.616M EUR (2025) — significativa pero menor",
+        "Red HLA solida (18 hospitales, 38 centros)",
+        "Modelo cooperativo: decisiones mas lentas",
+        "Sin respaldo de cotizada o grupo financiero potente",
+        "Experiencia hospital internacional limitada (solo Barcelona)"
+      ],
+      "p_respuesta": 55.0,
+      "timeline_meses_min": 6,
+      "timeline_meses_max": 9,
+      "tipo_respuesta": [
+        {
+          "alianza_defensiva": 0.35
+        },
+        {
+          "refuerzo_competitivo": 0.3
+        },
+        {
+          "integracion_red": 0.25
+        },
+        {
+          "observar_esperar": 0.1
+        }
+      ],
+      "fecha": "2026-04-21"
     }
-  ],
-  "informe_preview": "# Informe Fase 2 — Inteligencia Competitiva\n\n## Parte A: Data Collection\n\n### Tabla de Fuentes Recopiladas\n\n| # | Fuente | Tipo | Lead Time | Framework | Estado |\n|---|--------|------|-----------|-----------|--------|\n| 1 | CNMC — Informe Sanitas | Primaria/Pública | 1 mes | Capability | 🟡 Pendiente |\n| 1 | CNMC — Informe Adeslas | Primaria/Pública | 1 mes | Capability | 🟡 Pendiente |\n| 1 | CNMC — Informe Asisa | Primaria/Pública | 1 mes | Capability | 🟡 Pendiente |\n| 4 | BOE — Licitaciones sanitarias | Primaria/Pública | 2 semanas | Capability | 🟡 Pendiente |\n| 8 | Registro Mercantil — Sanitas | OSINT | 2 semanas | Capability | 🟡 Pendiente |\n| 8 | Registro Mercantil — Adeslas | OSINT | 2 semanas | Capability | 🟡 Pendiente |\n| 8 | Registro Mercantil — Asisa | OSINT | 2 semanas | Capability | 🟡 Pendiente |\n| 2 | LinkedIn Job Postings — Sanitas | Alt.Data | Tiempo real | Motivation | 🟡 Pendiente |\n| 2 | LinkedIn Job Postings — Adeslas | Alt.Data | Tiempo real | Motivation | 🟡 Pendiente |\n| 2 | LinkedIn Job Postings — Asisa | Alt.Data | Tiempo real | Motivation | 🟡 Pendiente |\n| 7 | Noticias Prensa — Sanitas | Primaria | 1-2 semanas | Awareness/Motivation | 🟡 Pendiente |\n| 7 | Noticias Prensa — Adeslas | Primaria | 1-2 semanas | Awareness/Motivation | 🟡 Pendiente |\n| 7 | Noticias Prensa — Asisa | Primaria | 1-2 semanas | Awareness/Motivation | 🟡 Pendiente |\n\n## Parte B: AMC Analysis\n\n### Puntuaciones Awareness/Motivation/Capability\n\n| Competidor | A | M | C | P(Respuesta) | Timeline |\n|---------|---|---|---|---|---|\n| Sanitas | 4 | 5 | 5 | 93.3% | 4 meses |\n| Adeslas | 4 | 4 | 5 | 86.7% | 6 meses |\n| Asisa | 2 | 2 | 4 | 53.3% | 8 meses |\n"
+  ]
 }
