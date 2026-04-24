@@ -1,6 +1,6 @@
 # STATUS — Estado del Proyecto
 
-**Ultima actualizacion:** 2026-04-22
+**Ultima actualizacion:** 2026-04-24
 
 ## Estado por Fases
 
@@ -31,3 +31,4 @@
 - **Fase 4 (2026-04-21):** ECOMO Evaluation completado. 4 opciones evaluadas (Alianza Sanitas, Alianza Adeslas, Entrada Directa, No Entrada). Veredicto: Alianza Sanitas E[NPV]=+14,2M€ RECOMENDADA. Entrada Directa E[NPV]=-3,5M NO recomendada. Exchange Value total del JV: €160M (50D captura €96M, Sanitas €64M). Sensibilidad: ocupacion Año3 es variable más crítica (±€16M impacto). WACC reducible con financiacion BUPA. Confidence level: 72%.
 - **Fase 5 (Pablo Cerezal, 2026-04-22):** Sistema agentico completado con 4 agentes (KIT, EWS, Rec, Sintesis). 3 KITs definidos (Receptividad aseguradoras, Regulacion, Movimientos LATAM). Dashboard 9 KIIs con fuentes, frecuencias, umbrales y owners. Veredicto: CONDITIONAL GO — Alianza Sanitas/BUPA, Confidence 72%. Top 3 evidencias: E[NPV]+14.2M, AMC Sanitas 87% (3-6 meses), Exchange Value 96M capturado por 50D. 4 condiciones GO contractuales, 3 hedging actions, 3 shaping actions. Todos los entregables del Brief §3.1 (Phases 6 y 7) cubiertos.
 - **Fase 1 (Pablo Cerezal, 2026-04-22):** Blind Spot Check completado con 5 puntos ciegos (Zahra & Chaples 1993): modelo medico-socio no exportable, infravaloración de Quirónsalud, subestimación de ciclos regulatorios CCAA, sesgo de confirmación por éxito mexicano, riesgo de sobre-extensión simultánea. Contramedicida Pre-Mortem aplicada: 5 causas de fracaso narrativizadas con implicaciones de acción inmediata. Canvas, DAFO, competencias de expansion y repertorio competitivo documentados.
+- **Auditoria final (2026-04-24):** Revisado el proyecto end-to-end contra Brief §3.1. 18/18 entregables cubiertos. Nota global 9/10. Limpieza aplicada: (a) eliminado duplicado `FASE5_ESTRATEGIA_ENTRADA_COMPLETA.md` (contenido identico a `FASE5_ESTRATEGIA_ENTRADA.md`), (b) renombrada plantilla vacia `02_amc_analysis_framework.md` -> `02_amc_analysis_framework_TEMPLATE.md` (el analisis real esta en `RESULTADOS_FASE2.md`).
