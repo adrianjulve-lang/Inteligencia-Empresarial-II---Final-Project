@@ -102,7 +102,7 @@ with st.sidebar:
     st.divider()
     modulo = st.radio(
         "Selecciona el módulo:",
-        ["🎯 Dashboard Ejecutivo", "🔍 Análisis AMC Competidores", "🚨 Early Warning System", "💬 Pregunta al Agente"],
+        ["🎯 Dashboard Ejecutivo", "🔍 Análisis AMC Competidores", "🚨 Early Warning System", "🗺️ Hoja de Ruta 24 Meses", "💬 Pregunta al Agente"],
         index=0,
     )
 
@@ -136,7 +136,6 @@ if modulo == "🎯 Dashboard Ejecutivo":
         import pandas as pd
         df = pd.DataFrame(list(opciones.items()), columns=["Opción", "E[NPV] (M€)"])
         df = df.sort_values("E[NPV] (M€)", ascending=False)
-        colors = ["#28a745" if v > 0 else "#dc3545" for v in df["E[NPV] (M€)"]]
         st.bar_chart(df.set_index("Opción"))
         st.caption("Solo la Alianza Sanitas tiene E[NPV] positivo y robusto")
 
@@ -293,8 +292,117 @@ elif modulo == "🚨 Early Warning System":
     ])
     st.dataframe(protocolo, use_container_width=True, hide_index=True)
 
+    st.divider()
+    st.markdown("### 📤 Exportar estado actual del EWS")
+    estado_export = {
+        "timestamp": datetime.now().isoformat(timespec="seconds"),
+        "resumen": {"verde": verde, "amarillo": amarillo, "rojo": rojo},
+        "revision_estrategica_requerida": revision,
+        "kiis": [
+            {
+                "id": k.id,
+                "kit_id": k.kit_id,
+                "indicador": k.indicador,
+                "fuente": k.fuente,
+                "frecuencia": k.frecuencia,
+                "umbral_amarillo": k.umbral_amarillo,
+                "umbral_rojo": k.umbral_rojo,
+                "owner": k.owner,
+                "nivel_alerta": k.nivel_alerta.value,
+            }
+            for k in kiis
+        ],
+    }
+    json_bytes = json.dumps(estado_export, indent=2, ensure_ascii=False).encode("utf-8")
+    st.download_button(
+        label="⬇️  Descargar snapshot EWS (JSON)",
+        data=json_bytes,
+        file_name=f"ews_snapshot_{datetime.now().strftime('%Y%m%d_%H%M')}.json",
+        mime="application/json",
+        type="primary",
+    )
+
 # ─────────────────────────────────────────────────────────────────────────────
-# MÓDULO 4: Pregunta al Agente
+# MÓDULO 4: Hoja de Ruta 24 Meses
+# ─────────────────────────────────────────────────────────────────────────────
+elif modulo == "🗺️ Hoja de Ruta 24 Meses":
+    st.markdown("## 🗺️ Hoja de Ruta — 24 Meses")
+    st.markdown("> Plan de ejecución alineado con el veredicto **CONDITIONAL GO** (Fase 5). Hitos, condiciones GO contractuales y signposts del EWS.")
+
+    import pandas as pd
+
+    # Tabla de hitos
+    st.markdown("### 🎯 Hitos clave por trimestre")
+    hitos = pd.DataFrame([
+        {"T": "T0",  "Mes": "0",      "Workstream": "Negociación",   "Hito": "Reunión CEO-to-CEO 50D ↔ Sanitas/BUPA", "Owner": "CEO 50D",       "Estado": "🟢 En curso"},
+        {"T": "T1",  "Mes": "1-3",    "Workstream": "Due Diligence", "Hito": "Term Sheet firmado (Alianza JV)",         "Owner": "CFO + Legal",   "Estado": "⚪ Pendiente"},
+        {"T": "T1",  "Mes": "1-3",    "Workstream": "Regulatorio",   "Hito": "Carta de no-oposición CCAA Madrid",       "Owner": "Asuntos Públ.", "Estado": "⚪ Pendiente"},
+        {"T": "T2",  "Mes": "4-6",    "Workstream": "Estructura",    "Hito": "Constitución JV (60% 50D / 40% Sanitas)",  "Owner": "Legal",         "Estado": "⚪ Pendiente"},
+        {"T": "T2",  "Mes": "4-6",    "Workstream": "Comercial",     "Hito": "Contrato derivación pacientes Sanitas",   "Owner": "BD JV",         "Estado": "⚪ Pendiente"},
+        {"T": "T3",  "Mes": "7-12",   "Workstream": "Activo",        "Hito": "Cierre compra terreno Madrid (Hospital 1)","Owner": "Real Estate",   "Estado": "⚪ Pendiente"},
+        {"T": "T3",  "Mes": "7-12",   "Workstream": "Talento",       "Hito": "30 médicos senior reclutados",            "Owner": "RRHH",          "Estado": "⚪ Pendiente"},
+        {"T": "T4",  "Mes": "13-18",  "Workstream": "Construcción",  "Hito": "Obra Hospital Madrid 50% completada",     "Owner": "Construcción",  "Estado": "⚪ Pendiente"},
+        {"T": "T4",  "Mes": "13-18",  "Workstream": "Comercial",     "Hito": "Term Sheet Hospital Barcelona",           "Owner": "BD JV",         "Estado": "⚪ Pendiente"},
+        {"T": "T5",  "Mes": "19-24",  "Workstream": "Operación",     "Hito": "Apertura Hospital Madrid (Año 2)",        "Owner": "COO JV",        "Estado": "⚪ Pendiente"},
+        {"T": "T5",  "Mes": "19-24",  "Workstream": "Comercial",     "Hito": "Ocupación Año 2 ≥ 60%",                   "Owner": "COO JV",        "Estado": "⚪ Pendiente"},
+    ])
+    st.dataframe(hitos, use_container_width=True, hide_index=True)
+
+    st.divider()
+
+    # Visualización tipo Gantt simplificado
+    st.markdown("### 📊 Vista temporal de workstreams")
+    workstreams = pd.DataFrame([
+        {"Workstream": "Negociación / DD",       "Inicio (mes)": 0,  "Duración (meses)": 6},
+        {"Workstream": "Asuntos regulatorios",   "Inicio (mes)": 1,  "Duración (meses)": 12},
+        {"Workstream": "Estructura JV + Legal",  "Inicio (mes)": 4,  "Duración (meses)": 4},
+        {"Workstream": "Real Estate Hospital 1", "Inicio (mes)": 7,  "Duración (meses)": 4},
+        {"Workstream": "Construcción Hospital 1","Inicio (mes)": 11, "Duración (meses)": 10},
+        {"Workstream": "Reclutamiento médicos",  "Inicio (mes)": 7,  "Duración (meses)": 14},
+        {"Workstream": "Hospital 1 operativo",   "Inicio (mes)": 21, "Duración (meses)": 3},
+    ])
+    st.bar_chart(workstreams.set_index("Workstream")[["Inicio (mes)", "Duración (meses)"]])
+    st.caption("Lectura: la barra azul (Inicio) indica cuándo arranca el workstream, la naranja (Duración) cuántos meses dura.")
+
+    st.divider()
+
+    col_a, col_b = st.columns(2)
+
+    with col_a:
+        st.markdown("### ✅ Condiciones GO (must-have antes de CapEx)")
+        condiciones = pd.DataFrame([
+            {"#": "C1", "Condición": "Term Sheet firmado con Sanitas/BUPA",     "Deadline": "Mes 3",  "Estado": "⚪ Pendiente"},
+            {"#": "C2", "Condición": "Confirmación BUPA: 50M€ committed (3 años)", "Deadline": "Mes 4",  "Estado": "⚪ Pendiente"},
+            {"#": "C3", "Condición": "Carta no-oposición CCAA Madrid",          "Deadline": "Mes 6",  "Estado": "⚪ Pendiente"},
+            {"#": "C4", "Condición": "30 médicos senior con LOI firmada",       "Deadline": "Mes 9",  "Estado": "⚪ Pendiente"},
+        ])
+        st.dataframe(condiciones, use_container_width=True, hide_index=True)
+        st.caption("Si una condición falla → automáticamente pivotamos al Plan B (hedging H2: Adeslas).")
+
+    with col_b:
+        st.markdown("### 🚨 Signposts de aborto (del EWS)")
+        signposts = pd.DataFrame([
+            {"Señal": "DGS publica restricción inversión extranjera",  "KIT": "KIT 2", "Acción": "🔴 STOP — pivot Hedging H1"},
+            {"Señal": "Sanitas anuncia Hospital Blua Madrid 50D-zone", "KIT": "KIT 1", "Acción": "🔴 STOP — pivot Hedging H2 (Adeslas)"},
+            {"Señal": "Sindicatos médicos campaña anti-50D",            "KIT": "KIT 3", "Acción": "🟡 ALERTA — relocation MX"},
+            {"Señal": "BUPA anuncia revisión estratégica ELA",          "KIT": "KIT 1", "Acción": "🔴 STOP — diversificar PE"},
+        ])
+        st.dataframe(signposts, use_container_width=True, hide_index=True)
+        st.caption("Cualquier signpost en ROJO antes del Mes 6 → STOP CapEx.")
+
+    st.divider()
+    st.markdown("### 💡 Confidence Path: 72% → 85%")
+    st.markdown("""
+    El veredicto actual es **CONDITIONAL GO @ 72%**. La hoja de ruta busca elevar la confianza al **85%** verificando empíricamente los supuestos load-bearing:
+
+    - **Mes 3** → Term Sheet firmado (verifica Supuesto LB#2: cooperación aseguradoras) → confidence ≈ 78%
+    - **Mes 6** → No-oposición CCAA Madrid (verifica Supuesto LB#1: regulación) → confidence ≈ 82%
+    - **Mes 12** → Construcción al 50% + 30 médicos firmados (verifica LB#3: ejecución) → confidence ≈ 85%
+    - **Mes 24** → Hospital operativo + ocupación ≥ 60% → **GO sostenido** (confidence > 90%)
+    """)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MÓDULO 5: Pregunta al Agente
 # ─────────────────────────────────────────────────────────────────────────────
 elif modulo == "💬 Pregunta al Agente":
     st.markdown("## 💬 Pregunta al Agente Estratégico")
@@ -422,16 +530,174 @@ Restrictiva│ C: Entrada     │ D: Guerra+   │
 
 **Probabilidades usadas de forma consistente** en Fases 3, 4 y 5 (auditado ✅)"""
         },
+        "premortem": {
+            "keywords": ["premortem", "pre-mortem", "fracaso", "que sale mal", "qué sale mal", "que falla", "qué falla", "post-mortem"],
+            "response": """**Pre-Mortem (Klein 1989) — Agente Blind Spots**
+
+🔮 **Premisa:** Es 2029. La entrada en España fracasó. ¿Qué salió mal? (Análisis retroactivo)
+
+**Causa #1 — Modelo médico-socio no transferible (BC-1 cognitivo):**
+- Sólo 8 médicos españoles aceptaron ser socios (vs. 80 necesarios)
+- Ocupación máxima Año 2 = 42% (break-even = 70%)
+- Los 1.500 médicos mexicanos no se relocaron en masa
+- 🚩 *Señal ignorada:* en War Game Ronda 1, Red Team predijo retención por Sanitas
+
+**Causa #2 — Brecha de credibilidad de marca (BC-2 cultural):**
+- Pacientes españoles eligieron Sanitas/HM por reconocimiento
+- 3M€ marketing insuficientes vs. 25 años de brand equity incumbentes
+- Médicos de cabecera no derivaron por desconocimiento
+
+**Causa #3 — Sorpresa regulatoria (BC-3 estructural):**
+- DGS exigió 35% co-propiedad española en 2027
+- Sanitas usó la negociación forzada para extraer 45% equity barato
+- 🚩 *Señal ignorada:* el BOE consultó "ordenación inversión sanitaria extranjera" 6 meses antes
+
+**Antídoto institucional:** El EWS de la Fase 5 (KIIs 4-6) detecta exactamente estas señales. El pre-mortem es la prueba de que el sistema agéntico es necesario, no decorativo."""
+        },
+        "blindspots": {
+            "keywords": ["blind spot", "blindspot", "punto ciego", "puntos ciegos", "zahra", "chaples", "cognitivo", "estructural"],
+            "response": """**Blind Spot Check (Zahra & Chaples 1993) — Agente F1**
+
+🔍 **3 Puntos Ciegos críticos identificados:**
+
+| # | Tipo | Descripción | Riesgo |
+|---|------|-------------|--------|
+| **BC-1** | Cognitivo | Asunción de transferibilidad del modelo médico-socio a España | E[NPV] → -€2,1M |
+| **BC-2** | Cultural | Subestimación de la brecha de credibilidad de marca europea | -40% ingresos Año 1-3 |
+| **BC-3** | Estructural | Sin precedente de hospital 100% extranjero en España | Hasta -€45M en entrada directa |
+
+**Por qué importa:** Los tres convergen en una conclusión incómoda — el mayor riesgo de 50D no es financiero, **es epistémico**. El equipo no tiene sistemas internos para detectar las señales de fallo de los supuestos load-bearing.
+
+**Cierre del loop:** El EWS de Fase 5 es precisamente el mecanismo institucional que cierra estos puntos ciegos. KITs 1-3 + 9 KIIs + protocolo de escalado = blind spots monitorizados, no eliminados."""
+        },
+        "exchangevalue": {
+            "keywords": ["exchange value", "valor capturado", "captura", "split", "reparto"],
+            "response": """**Exchange Value (TN01) — Agente ECOMO**
+
+💎 **Valor total creado por el JV: €160M (5 años)**
+
+| Parte | Valor capturado | % | Justificación |
+|-------|-----------------|---|---------------|
+| **50 Doctors** | **€96M** | 60% | Aporta know-how operativo, modelo médico-socio, marca emergente premium |
+| **Sanitas/BUPA** | €64M | 40% | Aporta red comercial, brand equity, relaciones institucionales CCAA |
+
+**Lógica del split 60/40:**
+- 50D necesita más value capture porque asume el riesgo cross-border (WACC=12% standalone vs 8% con BUPA)
+- Sanitas captura menos pero con menor riesgo (su contribución es mark-to-market: red existente)
+- El 40% de Sanitas (+€64M) supera holgadamente su BATNA (No-Entrada = €0), por eso firmará
+
+**Sensibilidad del split:**
+- Si Sanitas exige 50/50 → E[NPV] 50D cae a +€8M (aún positivo, pero margen estrecho)
+- Si Sanitas exige 30/70 a su favor → 50D mejor opción es Adeslas (E[NPV] +€4,6M)
+- Línea roja negociadora: 50D no debe aceptar < 55% de captura."""
+        },
+        "wargame": {
+            "keywords": ["war game", "wargame", "shell", "ronda", "red team", "blue team", "green team", "shock"],
+            "response": """**War Game Design (Fase 3) — Agente Scenario Planning**
+
+🎲 **Setup:** 3 rondas × 45 min · 11-13 jugadores · Red/Blue/Green teams
+
+**Equipos:**
+- 🔴 **Red** = 50 Doctors (atacante, 3 jugadores)
+- 🔵 **Blue** = Sanitas + Adeslas + Asisa (defensores, 6 jugadores)
+- 🟢 **Green** = Regulador + Mercado + Pacientes (control, 2 jugadores)
+
+**Shock events introducidos:**
+1. **Ronda 2:** "CNMC abre consulta pública sobre regulación de hospitales privados extranjeros"
+2. **Ronda 3:** "BUPA anuncia inversión 200M GBP en Latam — buscan alianzas premium"
+3. *Opcional Ronda 3:* Open letter de médicos españoles contra entrada de 50D
+
+**Hallazgos clave del juego:**
+- En Ronda 1, **Asisa se movió ANTES que Adeslas** para contactar a 50D — confirma que jugadores medianos con AMC alta son los primeros en reaccionar
+- El Shock #2 (BUPA Latam) **clarifica posición Sanitas hacia alianza** vs adquisición — alinea con E[NPV] Alianza +€14,2M
+- Probabilidades calibradas: A=35% / B=15% / C=30% / D=20% (consistente con F4 y F5 ✅)"""
+        },
+        "roadmap": {
+            "keywords": ["roadmap", "hoja de ruta", "timeline", "plazo", "calendario", "cuando", "cuándo"],
+            "response": """**Hoja de Ruta 24 meses — Agente Estratégico**
+
+🗺️ **Plan de ejecución alineado con CONDITIONAL GO:**
+
+| Trimestre | Hito clave |
+|-----------|------------|
+| **T0 (Mes 0)** | CEO-to-CEO 50D ↔ Sanitas/BUPA |
+| **T1 (Mes 1-3)** | Term Sheet + carta no-oposición CCAA |
+| **T2 (Mes 4-6)** | Constitución JV (60/40) + contrato derivación |
+| **T3 (Mes 7-12)** | Compra terreno Madrid + 30 médicos senior |
+| **T4 (Mes 13-18)** | Construcción 50% + Term Sheet Hospital BCN |
+| **T5 (Mes 19-24)** | Apertura Madrid + ocupación ≥ 60% |
+
+**4 Condiciones GO must-have antes de CapEx:**
+1. C1: Term Sheet Sanitas firmado (Mes 3)
+2. C2: 50M€ committed por BUPA (Mes 4)
+3. C3: Carta CCAA Madrid (Mes 6)
+4. C4: 30 médicos con LOI (Mes 9)
+
+**Confidence path:** 72% → 78% (Mes 3) → 82% (Mes 6) → 85% (Mes 12) → >90% (Mes 24)
+
+Si cualquier condición falla → activación automática de hedging H2 (Adeslas como Plan B)."""
+        },
+        "modelo": {
+            "keywords": ["50 doctors", "50d", "modelo", "negocio", "medico-socio", "médico-socio", "hospital", "lujo", "asequible"],
+            "response": """**Modelo de Negocio 50 Doctors — Agente Contexto**
+
+🏥 **Propuesta de valor:** *"Hospitales de lujo a precios accesibles"*
+- Instalaciones premium (quirófanos robotizados, cero listas de espera)
+- 30-40% por debajo de competidores privados tradicionales mexicanos
+
+**Diferenciador estructural — el modelo médico-socio:**
+- Médicos NO son asalariados — son socios del hospital
+- Aportan su propia cartera de pacientes → CAC 70% menor
+- 1.500 médicos activos en México
+
+**Segmentos de ingresos (México):**
+- Paciente privado local: ~55%
+- Turismo médico (EE.UU., Latam): ~25%
+- Seguros privados (AXA, GNP, Bupa MX): ~15%
+- Corporativo: ~5%
+
+**Trayectoria operativa:**
+- Pipeline: CDMX → Puebla → Torreón → La Paz → Cancún → 18+ activos hoy → 50 objetivo
+- Velocidad de construcción: 14-18 meses (sector: 28-36 meses)
+- 14 hospitales adicionales en desarrollo
+
+**Riesgo central de transferir el modelo a España:** ver Blind Spot BC-1 (cognitivo)."""
+        },
+        "agentico": {
+            "keywords": ["agentico", "agéntico", "agentic", "sistema", "arquitectura", "agentes", "loop", "razonamiento"],
+            "response": """**Sistema Agéntico — Arquitectura del proyecto**
+
+🤖 **Dos sistemas operativos, mismo patrón de 4 agentes:**
+
+**Fase 2 — Intelligence System** (`agentic_intelligence_system.py`)
+- 🌐 OSINT Agent → recolecta fuentes públicas verificables
+- 📡 Alt.Data Agent → señales débiles (LinkedIn, hiring, news)
+- 🎯 AMC Agent → aplica framework Chen & Miller (2012)
+- 📋 Synthesis Agent → matrices Market Commonality / Resource Similarity
+
+**Fase 5 — Early Warning System** (`agentic_ews_system.py`)
+- 🎯 KIT Agent → define los 3 Key Intelligence Topics
+- 🚨 EWS Agent → monitoriza 9 KIIs vs umbrales
+- ✅ Recommendation Agent → produce CONDITIONAL GO + condiciones
+- 📋 Synthesis Agent → informe ejecutivo unificado
+
+**Loop de control compartido:** Plan → Act → Observe → Replan
+
+**Automatización:** GitHub Actions ejecuta el EWS cada lunes 08:00 UTC. Persistencia: JSONs versionados en repo. Audit trail: cada decisión es trazable de fuente → razonamiento → output."""
+        },
         "default": {
             "response": """**Respuesta del Sistema Agéntico**
 
 No encuentro ese término en la base de conocimiento del proyecto. Prueba preguntando sobre:
 
-- 🏦 **Competidores:** "¿Cómo reaccionará Sanitas?" / "Analiza Adeslas"
-- 💰 **Finanzas:** "¿Cuál es el NPV?" / "Explica el WACC"
+- 🏦 **Competidores:** "¿Cómo reaccionará Sanitas?" / "Analiza Adeslas" / "Y Asisa?"
+- 💰 **Finanzas:** "¿Cuál es el NPV?" / "Explica el WACC" / "Cómo se reparte el Exchange Value?"
 - ⚖️ **Regulación:** "¿Qué riesgo regulatorio hay?"
-- 🎲 **Escenarios:** "¿Cuál es el escenario más probable?"
-- 🏥 **50 Doctors:** "¿Cuál es el modelo de negocio?"
+- 🎲 **Escenarios:** "¿Cuál es el escenario más probable?" / "Cuéntame el War Game"
+- 🔮 **Riesgos:** "¿Qué dice el Pre-Mortem?" / "¿Cuáles son los blind spots?"
+- 🗺️ **Plan:** "¿Cuál es el roadmap?" / "¿Cuándo abre el primer hospital?"
+- 🏥 **50 Doctors:** "¿Cuál es el modelo de negocio?" / "Explica el modelo médico-socio"
+- 🤖 **Sistema:** "¿Cómo funciona el sistema agéntico?"
 
 O ejecuta el análisis completo desde el módulo **🔍 Análisis AMC Competidores**."""
         }
@@ -458,8 +724,19 @@ O ejecuta el análisis completo desde el módulo **🔍 Análisis AMC Competidor
         if st.button("Analiza a Adeslas", use_container_width=True):
             st.session_state['pregunta'] = "Analiza el perfil de Adeslas como competidor"
     with col_q6:
-        if st.button("¿Por qué CONDITIONAL GO?", use_container_width=True):
-            st.session_state['pregunta'] = "¿Por qué el veredicto es CONDITIONAL GO y no GO?"
+        if st.button("¿Cómo se reparte el valor del JV?", use_container_width=True):
+            st.session_state['pregunta'] = "¿Cómo se reparte el Exchange Value entre 50D y Sanitas?"
+
+    col_q7, col_q8, col_q9 = st.columns(3)
+    with col_q7:
+        if st.button("¿Qué dice el Pre-Mortem?", use_container_width=True):
+            st.session_state['pregunta'] = "¿Qué dice el Pre-Mortem sobre el fracaso?"
+    with col_q8:
+        if st.button("¿Cuál es la hoja de ruta?", use_container_width=True):
+            st.session_state['pregunta'] = "¿Cuál es el roadmap a 24 meses?"
+    with col_q9:
+        if st.button("¿Cómo funciona el sistema agéntico?", use_container_width=True):
+            st.session_state['pregunta'] = "¿Cómo funciona la arquitectura del sistema agéntico?"
 
     # Input de pregunta
     pregunta = st.text_input(
