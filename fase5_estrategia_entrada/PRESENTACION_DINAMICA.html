@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>50 Doctors México — Agentic Competitive Intelligence System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --navy-900:#0a1628;
+    --navy-800:#0f2444;
+    --navy-700:#173763;
+    --navy-600:#1f4d8a;
+    --navy-500:#2563b0;
+    --gold:#c8a96a;
+    --gold-soft:#e3d3ad;
+    --gold-dark:#a08648;
+    --ink:#0a0a0a;
+    --ink-2:#1f2937;
+    --ink-3:#374151;
+    --muted:#6b7280;
+    --muted-2:#9ca3af;
+    --line:#e5e7eb;
+    --line-2:#f1f3f5;
+    --bg:#ffffff;
+    --bg-soft:#f8f9fb;
+    --bg-cream:#faf8f3;
+    --ok:#0e7c4a;
+    --warn:#b45309;
+    --bad:#b91c1c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    color:var(--ink-2);background:var(--bg);
+    font-size:15px;line-height:1.65;font-weight:400;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  .serif{font-family:'Playfair Display',Georgia,serif;}
+  code,pre{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.86em;}
+
+  /* ── PROGRESS BAR ─────────────── */
+  .progress-bar{
+    position:fixed;top:0;left:0;height:3px;width:0;
+    background:linear-gradient(90deg,var(--gold),var(--gold-dark));
+    z-index:1000;transition:width .1s ease;
+  }
+
+  /* ── NAV ─────────────────────── */
+  nav{
+    position:sticky;top:0;background:rgba(10,22,40,.96);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(200,169,106,.18);
+    z-index:100;
+  }
+  .nav-inner{
+    max-width:1280px;margin:0 auto;padding:14px 40px;
+    display:flex;align-items:center;gap:32px;
+  }
+  .nav-brand{
+    color:#fff;font-weight:600;font-size:14px;letter-spacing:-.01em;
+    display:flex;align-items:center;gap:10px;
+  }
+  .nav-brand::before{
+    content:"";width:8px;height:8px;background:var(--gold);
+    border-radius:50%;box-shadow:0 0 0 4px rgba(200,169,106,.18);
+  }
+  .nav-brand span{color:var(--gold-soft);font-weight:400;margin-left:2px;}
+  .nav-links{display:flex;gap:2px;margin-left:auto;flex-wrap:wrap;}
+  .nav-links a{
+    color:rgba(255,255,255,.72);text-decoration:none;font-size:12.5px;
+    padding:7px 11px;border-radius:6px;transition:all .18s;font-weight:500;
+  }
+  .nav-links a:hover{background:rgba(255,255,255,.08);color:var(--gold);}
+
+  /* ── LAYOUT ──────────────────── */
+  main{max-width:1280px;margin:0 auto;padding:0 40px;}
+  section{padding:104px 0 88px;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+
+  /* ── HERO ────────────────────── */
+  .hero{
+    position:relative;padding:0;
+    background:linear-gradient(135deg,var(--navy-900) 0%,var(--navy-800) 60%,var(--navy-700) 100%);
+    color:#fff;margin:0 -40px;padding:120px 40px 120px;
+    overflow:hidden;border-bottom:none;
+  }
+  .hero::before{
+    content:"";position:absolute;top:-50%;right:-20%;width:80%;height:200%;
+    background:radial-gradient(circle,rgba(200,169,106,.15) 0%,transparent 60%);
+    pointer-events:none;
+  }
+  .hero::after{
+    content:"";position:absolute;bottom:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(200,169,106,.5),transparent);
+  }
+  .hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:2;}
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:11px;font-weight:600;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--gold);margin-bottom:32px;
+    padding:6px 14px;border:1px solid rgba(200,169,106,.4);
+    border-radius:50px;background:rgba(200,169,106,.06);
+  }
+  .hero-eyebrow::before{
+    content:"";width:6px;height:6px;background:var(--gold);
+    border-radius:50%;animation:pulse 2.4s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;transform:scale(1);}
+    50%{opacity:.5;transform:scale(1.4);}
+  }
+  .hero h1{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(40px,5.6vw,68px);font-weight:700;letter-spacing:-.025em;
+    line-height:1.08;margin-bottom:32px;max-width:1000px;color:#fff;
+  }
+  .hero h1 em{font-style:italic;color:var(--gold-soft);font-weight:600;}
+  .hero-lede{
+    font-size:18px;line-height:1.7;color:rgba(255,255,255,.78);
+    max-width:760px;margin-bottom:56px;font-weight:300;
+  }
+  .hero-meta{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:0;padding-top:40px;border-top:1px solid rgba(200,169,106,.2);
+    max-width:1100px;
+  }
+  .hero-meta div{
+    padding:0 24px;border-right:1px solid rgba(255,255,255,.08);
+  }
+  .hero-meta div:first-child{padding-left:0;}
+  .hero-meta div:last-child{border-right:none;}
+  .hero-meta div .k{
+    font-size:10.5px;color:var(--gold);text-transform:uppercase;
+    letter-spacing:.12em;margin-bottom:10px;font-weight:600;
+  }
+  .hero-meta div .v{
+    font-family:'Playfair Display',serif;font-size:20px;
+    font-weight:600;color:#fff;line-height:1.25;
+  }
+  .hero-scroll{
+    margin-top:64px;font-size:11px;letter-spacing:.18em;
+    color:rgba(255,255,255,.5);text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:14px;
+  }
+  .hero-scroll::after{
+    content:"";width:50px;height:1px;background:var(--gold);
+    animation:slide 2s infinite;
+  }
+  @keyframes slide{
+    0%{transform:translateX(-10px);opacity:.5;}
+    50%{transform:translateX(0);opacity:1;}
+    100%{transform:translateX(10px);opacity:.5;}
+  }
+
+  /* ── REVEAL ANIM ─────────────── */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1);}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ── SECTION HEADER ──────────── */
+  .sec-num{
+    font-family:'JetBrains Mono',monospace;font-size:12px;
+    color:var(--gold-dark);margin-bottom:12px;letter-spacing:.06em;
+    font-weight:500;text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .sec-num::before{
+    content:"";width:24px;height:1px;background:var(--gold);
+  }
+  .sec-title{
+    font-family:'Playfair Display',serif;
+    font-size:42px;font-weight:600;letter-spacing:-.02em;
+    line-height:1.12;margin-bottom:18px;max-width:820px;color:var(--ink);
+  }
+  .sec-frame{
+    font-size:13px;color:var(--muted);margin-bottom:56px;
+    padding-bottom:28px;border-bottom:1px solid var(--line-2);
+    display:flex;flex-wrap:wrap;gap:28px;
+  }
+  .sec-frame span{display:inline-flex;gap:6px;}
+  .sec-frame span strong{color:var(--ink-2);font-weight:600;}
+
+  /* ── DELIVERABLE BLOCKS ──────── */
+  .deliverable{
+    display:grid;grid-template-columns:220px 1fr;gap:60px;
+    padding:56px 0;border-top:1px solid var(--line-2);
+  }
+  .deliverable:first-of-type{border-top:none;padding-top:0;}
+  .d-side{position:sticky;top:80px;align-self:start;}
+  .d-side .d-tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--gold-dark);margin-bottom:10px;font-weight:600;
+    letter-spacing:.05em;
+  }
+  .d-side .d-title{
+    font-family:'Playfair Display',serif;font-size:20px;font-weight:600;
+    line-height:1.3;letter-spacing:-.01em;color:var(--navy-900);
+  }
+  .d-side .d-framework{
+    font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6;
+    padding-top:14px;border-top:1px solid var(--line-2);
+  }
+  .d-narrative{
+    font-size:15.5px;color:var(--ink-3);line-height:1.75;margin-bottom:28px;
+  }
+  .d-narrative strong{color:var(--navy-800);}
+
+  /* ── COMPONENTS ──────────────── */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+
+  .panel{
+    background:var(--bg);border:1px solid var(--line);border-radius:10px;
+    padding:24px;transition:all .25s cubic-bezier(.4,0,.2,1);
+    position:relative;overflow:hidden;
+  }
+  .panel:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 32px -12px rgba(15,36,68,.15),0 4px 12px -4px rgba(15,36,68,.08);
+    border-color:var(--gold-soft);
+  }
+  .panel::before{
+    content:"";position:absolute;top:0;left:0;width:3px;height:0;
+    background:var(--gold);transition:height .25s;
+  }
+  .panel:hover::before{height:100%;}
+  .panel h4{
+    font-family:'Playfair Display',serif;font-size:16px;font-weight:600;
+    color:var(--navy-900);margin-bottom:10px;letter-spacing:-.005em;
+  }
+  .panel p{font-size:13.5px;color:var(--ink-3);line-height:1.65;}
+  .panel .panel-tag{
+    display:inline-block;font-size:10.5px;font-family:'JetBrains Mono',monospace;
+    color:var(--gold-dark);margin-bottom:12px;font-weight:600;
+    letter-spacing:.05em;text-transform:uppercase;
+    padding:3px 9px;background:var(--bg-cream);border-radius:4px;
+  }
+
+  table{
+    width:100%;border-collapse:collapse;font-size:13.5px;
+    margin:8px 0;background:var(--bg);border-radius:8px;overflow:hidden;
+    box-shadow:0 1px 3px rgba(15,36,68,.04);border:1px solid var(--line);
+  }
+  th{
+    text-align:left;font-weight:600;color:#fff;
+    padding:14px 16px;background:var(--navy-800);
+    font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+  }
+  td{padding:16px;border-bottom:1px solid var(--line-2);vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  tr:hover td{background:var(--bg-cream);}
+  td strong{font-weight:600;color:var(--navy-900);}
+
+  .pill{
+    display:inline-block;font-size:10.5px;font-weight:600;
+    padding:3px 9px;border-radius:4px;letter-spacing:.04em;
+    font-family:'JetBrains Mono',monospace;text-transform:uppercase;
+  }
+  .pill-ok{background:#dcfce7;color:#14532d;}
+  .pill-warn{background:#fef3c7;color:#78350f;}
+  .pill-bad{background:#fee2e2;color:#7f1d1d;}
+  .pill-gold{background:var(--gold);color:var(--navy-900);}
+
+  .num{
+    font-family:'Playfair Display',serif;
+    font-size:38px;font-weight:700;letter-spacing:-.02em;
+    color:var(--navy-900);line-height:1;
+  }
+  .num.gold{color:var(--gold-dark);}
+  .num.green{color:var(--ok);}
+  .num.red{color:var(--bad);}
+  .num-sub{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5;}
+
+  .kv{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:10px 0;border-bottom:1px solid var(--line-2);font-size:13px;
+  }
+  .kv:last-child{border-bottom:none;}
+  .kv span:first-child{color:var(--muted);}
+  .kv span:last-child{font-weight:600;color:var(--ink-2);font-family:'JetBrains Mono',monospace;font-size:13px;}
+
+  .chart-box{
+    border:1px solid var(--line);border-radius:10px;
+    padding:28px;background:var(--bg);position:relative;height:380px;
+    box-shadow:0 1px 3px rgba(15,36,68,.04);
+  }
+
+  .quote{
+    border-left:3px solid var(--gold);padding:16px 0 16px 24px;
+    font-size:15px;color:var(--ink-2);font-style:italic;line-height:1.7;
+    margin:20px 0;background:var(--bg-cream);padding-right:24px;
+    border-radius:0 6px 6px 0;
+  }
+  .quote strong{font-style:normal;color:var(--navy-900);}
+
+  ul.clean{list-style:none;padding:0;}
+  ul.clean li{
+    padding:14px 0;border-bottom:1px solid var(--line-2);
+    font-size:14px;color:var(--ink-3);display:flex;gap:16px;align-items:flex-start;
+    line-height:1.65;
+  }
+  ul.clean li:last-child{border-bottom:none;}
+  ul.clean li::before{
+    content:"";flex-shrink:0;width:6px;height:6px;
+    background:var(--gold);transform:rotate(45deg);margin-top:9px;
+  }
+  ul.clean li strong{color:var(--navy-900);}
+
+  /* ── TABS ────────────────────── */
+  .tabs{
+    display:flex;gap:0;border-bottom:1px solid var(--line);
+    margin-bottom:28px;
+  }
+  .tab-btn{
+    background:none;border:none;padding:14px 22px;font:inherit;font-size:13px;
+    color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;
+    margin-bottom:-1px;transition:all .2s;font-weight:600;
+    position:relative;letter-spacing:.01em;
+  }
+  .tab-btn:hover{color:var(--navy-800);background:var(--bg-cream);}
+  .tab-btn.active{color:var(--navy-900);border-bottom-color:var(--gold);}
+  .tab-content{display:none;animation:fadeUp .4s ease;}
+  .tab-content.active{display:block;}
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(8px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  /* ── KIIs DASHBOARD ──────────── */
+  .kii{
+    display:grid;grid-template-columns:48px 1fr 130px 130px;
+    gap:18px;align-items:center;padding:18px 20px;
+    border:1px solid var(--line);border-radius:8px;font-size:14px;
+    margin-bottom:8px;background:var(--bg);transition:all .2s;
+  }
+  .kii:hover{
+    border-color:var(--gold-soft);background:var(--bg-cream);
+    transform:translateX(4px);
+  }
+  .kii-num{
+    font-family:'JetBrains Mono',monospace;color:var(--gold-dark);
+    font-size:13px;font-weight:600;
+  }
+  .kii-text strong{display:block;margin-bottom:3px;color:var(--navy-900);}
+  .kii-text small{color:var(--muted);font-size:12px;}
+  .kii-freq{font-size:11.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+  .status{
+    display:inline-flex;align-items:center;gap:8px;font-size:12px;
+    color:var(--ink-2);font-weight:600;
+  }
+  .status .dot{
+    width:10px;height:10px;border-radius:50%;
+    box-shadow:0 0 0 3px rgba(0,0,0,.06);
+  }
+  .dot-ok{background:var(--ok);box-shadow:0 0 0 3px rgba(14,124,74,.14)!important;}
+  .dot-warn{background:var(--warn);}
+  .dot-bad{background:var(--bad);}
+
+  /* ── SCENARIO QUADRANT ───────── */
+  .quadrant{
+    display:grid;grid-template-columns:1fr 1fr;gap:1px;
+    background:var(--line);border:1px solid var(--line);border-radius:10px;
+    overflow:hidden;box-shadow:0 4px 16px -8px rgba(15,36,68,.1);
+  }
+  .q-cell{
+    background:var(--bg);padding:28px;transition:all .25s;
+    position:relative;overflow:hidden;
+  }
+  .q-cell::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:3px;
+    background:var(--gold);transform:scaleX(0);
+    transform-origin:left;transition:transform .3s;
+  }
+  .q-cell:hover{background:var(--bg-cream);}
+  .q-cell:hover::before{transform:scaleX(1);}
+  .q-prob{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--gold-dark);margin-bottom:10px;font-weight:600;
+    letter-spacing:.06em;text-transform:uppercase;
+  }
+  .q-name{
+    font-family:'Playfair Display',serif;font-size:18px;font-weight:600;
+    margin-bottom:8px;letter-spacing:-.01em;color:var(--navy-900);
+  }
+  .q-desc{font-size:13.5px;color:var(--ink-3);line-height:1.65;margin-bottom:14px;}
+  .q-npv{
+    font-family:'JetBrains Mono',monospace;font-size:13px;
+    color:var(--ink-2);font-weight:600;
+    padding-top:12px;border-top:1px solid var(--line-2);
+  }
+
+  /* ── RECOMMENDATION ──────────── */
+  .rec-box{
+    background:linear-gradient(135deg,var(--navy-900) 0%,var(--navy-800) 100%);
+    color:#fff;border-radius:14px;padding:56px;
+    margin-top:32px;position:relative;overflow:hidden;
+    box-shadow:0 24px 48px -16px rgba(15,36,68,.4);
+  }
+  .rec-box::before{
+    content:"";position:absolute;top:-50%;right:-15%;width:70%;height:200%;
+    background:radial-gradient(circle,rgba(200,169,106,.18) 0%,transparent 60%);
+    pointer-events:none;
+  }
+  .rec-box > *{position:relative;z-index:2;}
+  .rec-verdict{
+    font-size:11px;font-family:'JetBrains Mono',monospace;
+    color:var(--gold);margin-bottom:14px;letter-spacing:.16em;
+    text-transform:uppercase;font-weight:600;
+  }
+  .rec-headline{
+    font-family:'Playfair Display',serif;
+    font-size:42px;font-weight:700;letter-spacing:-.02em;
+    line-height:1.15;margin-bottom:24px;color:#fff;
+  }
+  .rec-headline em{font-style:italic;color:var(--gold-soft);}
+  .rec-confidence{
+    display:inline-flex;align-items:baseline;gap:10px;
+    padding:10px 18px;background:rgba(200,169,106,.14);
+    border:1px solid rgba(200,169,106,.34);border-radius:8px;
+    font-size:13px;margin-bottom:36px;color:rgba(255,255,255,.86);
+  }
+  .rec-confidence strong{
+    font-family:'Playfair Display',serif;
+    font-size:22px;font-weight:700;color:var(--gold);
+  }
+  .rec-narrative{
+    font-size:15.5px;color:rgba(255,255,255,.84);line-height:1.75;
+    margin-bottom:32px;max-width:820px;font-weight:300;
+  }
+  .rec-evidence{
+    margin-bottom:36px;padding:24px;
+    background:rgba(255,255,255,.04);border-radius:10px;
+    border-left:3px solid var(--gold);
+  }
+  .rec-evidence h4{
+    font-family:'Playfair Display',serif;font-size:18px;font-weight:600;
+    color:#fff;margin-bottom:14px;
+  }
+  .rec-evidence ul{list-style:none;padding:0;}
+  .rec-evidence li{
+    padding:10px 0;color:rgba(255,255,255,.82);font-size:14px;
+    line-height:1.65;display:flex;gap:14px;align-items:flex-start;
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .rec-evidence li:last-child{border-bottom:none;}
+  .rec-evidence li::before{
+    content:"";flex-shrink:0;width:6px;height:6px;background:var(--gold);
+    transform:rotate(45deg);margin-top:9px;
+  }
+  .rec-evidence strong{color:#fff;font-weight:600;}
+  .rec-conditions{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:20px;padding-top:32px;border-top:1px solid rgba(200,169,106,.2);
+  }
+  .rec-cond{
+    padding:22px;background:rgba(255,255,255,.04);border-radius:8px;
+    border:1px solid rgba(255,255,255,.08);
+    transition:all .25s;
+  }
+  .rec-cond:hover{
+    background:rgba(255,255,255,.07);border-color:rgba(200,169,106,.34);
+    transform:translateY(-2px);
+  }
+  .rec-cond .rec-cond-tag{
+    font-size:10.5px;font-family:'JetBrains Mono',monospace;
+    color:var(--gold);margin-bottom:8px;font-weight:600;letter-spacing:.06em;
+  }
+  .rec-cond p{font-size:13px;line-height:1.6;color:rgba(255,255,255,.82);}
+  .rec-cond strong{color:#fff;font-weight:600;}
+
+  /* ── AGENTS ──────────────────── */
+  .agents{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+    border:1px solid var(--line);border-radius:10px;overflow:hidden;
+    box-shadow:0 1px 3px rgba(15,36,68,.04);
+  }
+  .agent{
+    padding:24px;border-right:1px solid var(--line);background:var(--bg);
+    transition:background .2s;position:relative;
+  }
+  .agent:last-child{border-right:none;}
+  .agent:hover{background:var(--bg-cream);}
+  .agent .a-num{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;
+    color:var(--gold-dark);margin-bottom:12px;font-weight:600;
+    letter-spacing:.06em;
+  }
+  .agent .a-name{
+    font-family:'Playfair Display',serif;font-size:16px;font-weight:600;
+    margin-bottom:8px;color:var(--navy-900);
+  }
+  .agent .a-role{font-size:12.5px;color:var(--ink-3);line-height:1.6;}
+
+  /* ── BACKGROUNDS ─────────────── */
+  .bg-cream{background:var(--bg-cream);margin:0 -40px;padding:104px 40px 88px;}
+  .bg-cream main, .bg-cream > div{max-width:1180px;margin:0 auto;}
+  section.alt{
+    background:var(--bg-cream);margin:0 -40px;padding:104px 40px 88px;
+    border-bottom:1px solid var(--line);
+  }
+  section.alt .inner{max-width:1180px;margin:0 auto;}
+
+  /* ── FOOTER ──────────────────── */
+  footer{
+    background:var(--navy-900);color:rgba(255,255,255,.7);
+    padding:64px 40px;text-align:center;font-size:13px;
+    margin:0 -40px;border-top:1px solid rgba(200,169,106,.2);
+  }
+  footer .f-brand{
+    font-family:'Playfair Display',serif;font-size:20px;font-weight:600;
+    color:#fff;margin-bottom:8px;letter-spacing:-.01em;
+  }
+  footer .f-brand span{color:var(--gold);}
+  footer .f-meta{margin-bottom:24px;color:rgba(255,255,255,.55);font-size:12.5px;}
+  footer a{
+    color:var(--gold-soft);text-decoration:none;
+    border-bottom:1px solid rgba(200,169,106,.3);
+    padding-bottom:1px;transition:all .2s;
+  }
+  footer a:hover{color:var(--gold);border-bottom-color:var(--gold);}
+
+  /* ── RESPONSIVE ──────────────── */
+  @media(max-width:880px){
+    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
+    .deliverable{grid-template-columns:1fr;gap:32px;}
+    .d-side{position:static;}
+    .agents{grid-template-columns:1fr 1fr;}
+    .agent{border-right:none;border-bottom:1px solid var(--line);}
+    .quadrant{grid-template-columns:1fr;}
+    main{padding:0 24px;}
+    section,.bg-cream,section.alt,footer{padding-left:24px;padding-right:24px;margin:0 -24px;}
+    section,.bg-cream,section.alt{padding-top:72px;padding-bottom:72px;}
+    .hero{padding:96px 24px;margin:0 -24px;}
+    .rec-box{padding:36px 28px;}
+    .rec-headline{font-size:30px;}
+    .nav-inner{padding:14px 20px;}
+    .nav-links{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ─────────── NAV ─────────── -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">50 Doctors México<span>· Agentic CI System</span></div>
+    <div class="nav-links">
+      <a href="#contexto">Contexto</a>
+      <a href="#d1">01</a>
+      <a href="#d2">02</a>
+      <a href="#d3">03</a>
+      <a href="#d4a">04a</a>
+      <a href="#d4b">04b</a>
+      <a href="#d4c">04c</a>
+      <a href="#d5">05</a>
+      <a href="#d6">06</a>
+      <a href="#d7">Recomendación</a>
+      <a href="#sistema">Sistema</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ─────────── HERO ─────────── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Final Project · Corporate Intelligence · UFV 2025–2026</div>
+    <h1>Análisis estratégico de la entrada de 50&nbsp;Doctors México en el mercado hospitalario español, <em>integrando los siete entregables del CI Framework Pathway con un sistema agéntico de inteligencia automatizada.</em></h1>
+    <p class="hero-lede">Estudio de caso completo aplicando los frameworks TN01–TN05 (AMC, Shell Method, ECOMO, ABP, Gilad EWS) sobre datos públicos verificables, con un prototipo funcional construido sobre las arquitecturas TN10–TN12 — multi-agente, ReAct y anti-alucinación.</p>
+    <div class="hero-meta">
+      <div><div class="k">Decisión</div><div class="v">Go / No-Go entrada España</div></div>
+      <div><div class="k">Sector</div><div class="v">Salud privada premium</div></div>
+      <div><div class="k">Competidores AMC</div><div class="v">Sanitas · Adeslas · Asisa</div></div>
+      <div><div class="k">Frameworks</div><div class="v">TN01 · TN02 · TN03</div></div>
+      <div><div class="k">Sistema agéntico</div><div class="v">8 agentes · ReAct</div></div>
+    </div>
+    <div class="hero-scroll">Explore el análisis</div>
+  </div>
+</div>
+
+<main>
+
+<!-- ─────────── CONTEXTO ─────────── -->
+<section id="contexto">
+  <div class="reveal">
+    <div class="sec-num">00 — Contexto</div>
+    <h2 class="sec-title">La situación competitiva</h2>
+    <div class="sec-frame">
+      <span><strong>Empresa focal:</strong> 50 Doctors (México)</span>
+      <span><strong>Mercado:</strong> España</span>
+      <span><strong>Pregunta:</strong> ¿Bajo qué condiciones la entrada genera valor?</span>
+    </div>
+  </div>
+
+  <div class="grid-2 reveal">
+    <div>
+      <h3 class="serif" style="font-size:22px;font-weight:600;margin-bottom:18px;letter-spacing:-.01em;color:var(--navy-900);">Modelo de negocio</h3>
+      <p style="font-size:15.5px;color:var(--ink-3);line-height:1.75;margin-bottom:18px;">
+        50 Doctors opera hospitales premium en México mediante un modelo singular: el <strong>médico-socio</strong>. Cincuenta especialistas líderes por ciudad aportan capital y pacientes a cambio del 50% del hospital. Este alineamiento de incentivos garantiza ocupación desde el día uno y reduce la curva de captación habitual del sector.
+      </p>
+      <p style="font-size:15.5px;color:var(--ink-3);line-height:1.75;">
+        La compañía ha demostrado capacidad de despliegue: <strong>14–18 meses</strong> de construcción frente a los 36 estándar, y un CapEx por hospital que oscila entre 500M MXN (formato estándar) y 1.750M MXN (complejos como Cancún).
+      </p>
+    </div>
+    <div>
+      <h3 class="serif" style="font-size:22px;font-weight:600;margin-bottom:18px;letter-spacing:-.01em;color:var(--navy-900);">Por qué España</h3>
+      <ul class="clean">
+        <li>Mercado de salud privada en crecimiento sostenido (<strong>+11% anual</strong>) con 13 millones de asegurados.</li>
+        <li>Aseguradoras buscan ampliar redes hospitalarias propias o concertadas para diferenciar producto.</li>
+        <li>Puerta de entrada natural a la Unión Europea para una expansión geográfica posterior.</li>
+        <li>Ausencia documentada de operadores hospitalarios mexicanos en territorio español.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ENTREGABLES §3.1 — CI Framework Pathway
+     ═══════════════════════════════════════════ -->
+
+<!-- ─────────── D1 ─────────── -->
+<section id="d1" class="alt">
+<div class="inner">
+  <div class="reveal">
+    <div class="sec-num">Entregable 01 / 07</div>
+    <h2 class="sec-title">Blind Spot Check</h2>
+    <div class="sec-frame">
+      <span><strong>Framework:</strong> TN03 — Zahra &amp; Chaples (1993)</span>
+      <span><strong>Contramedida:</strong> Pre-Mortem (Klein, 1989)</span>
+      <span><strong>Output:</strong> 5 puntos ciegos + 5 causas retroactivas</span>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D1.1</div>
+      <div class="d-title">Cinco puntos ciegos identificados</div>
+      <div class="d-framework">El equipo directivo construye sus tesis sobre supuestos no cuestionados. Se ordenan por criticidad estratégica.</div>
+    </div>
+    <div>
+      <p class="d-narrative">Aplicando el marco de Zahra &amp; Chaples se han revisado los principales supuestos de la dirección. <strong>Tres son load-bearing</strong>: si fallan, la tesis de inversión completa se derrumba. Los dos restantes son vulnerabilidades de ejecución que no comprometen la viabilidad pero erosionan retornos.</p>
+      <div class="grid-2">
+        <div class="panel"><span class="panel-tag">BC-1 · Load-bearing</span><h4>Transferibilidad del modelo médico-socio</h4><p>La dirección asume que el médico español acogerá la figura accionarial. La realidad es opuesta: el especialista español está habituado a la condición de empleado SNS y tiene aversión documentada al riesgo empresarial.</p></div>
+        <div class="panel"><span class="panel-tag">BC-2 · Load-bearing</span><h4>Infravaloración de Quirónsalud</h4><p>Con 58 hospitales y respaldo de Fresenius/Helios, no es un competidor más sino el referente premium europeo. Cualquier estrategia debe partir de su existencia, no orbitarla.</p></div>
+        <div class="panel"><span class="panel-tag">BC-3 · Load-bearing</span><h4>Ciclo regulatorio autonómico</h4><p>Las autorizaciones por CCAA exigen 24–36 meses sin precedente para hospital 100% extranjero. Este supuesto conecta con los entregables 4a, 5 y 6.</p></div>
+        <div class="panel"><span class="panel-tag">BC-4 · Vulnerable</span><h4>Sesgo de confirmación México→España</h4><p>El éxito en México genera un sesgo de extrapolación. España tiene un SNS universal que reduce el «dolor» del paciente que busca alternativa privada respecto al contexto mexicano.</p></div>
+        <div class="panel"><span class="panel-tag">BC-5 · Vulnerable</span><h4>Sobreextensión de capital humano</h4><p>Operar 50 hospitales en México mientras se abren 4 ciudades simultáneas en España exige una capacidad de management que no está demostrada en escenarios internacionales.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D1.2</div>
+      <div class="d-title">Pre-Mortem · 2030</div>
+      <div class="d-framework">Ejercicio retroactivo: «el proyecto ha fracasado, ¿por qué?». Cinco causas independientes, ordenadas por probabilidad subjetiva.</div>
+    </div>
+    <div>
+      <p class="d-narrative">El Pre-Mortem permite verbalizar fallos plausibles antes de que ocurran. Cada causa se vincula posteriormente con un supuesto del entregable 4c y con un indicador del sistema de alerta temprana del entregable 6.</p>
+      <table>
+        <tr><th>#</th><th>Causa de fracaso</th><th>Conexión</th></tr>
+        <tr><td>1</td><td><strong>Bloqueo regulatorio.</strong> La DGS exige copropiedad local obligatoria; el proceso supera tres años y consume 8–10M€ en legal y lobby sin abrir hospital.</td><td>BC-3 · ABP-1 · KIT2</td></tr>
+        <tr><td>2</td><td><strong>Contraofensiva BUPA.</strong> En lugar de aliarse, BUPA abre hospital propio premium en Madrid antes de que 50 Doctors obtenga licencia, ocupando el nicho.</td><td>AMC Sanitas · ABP-2</td></tr>
+        <tr><td>3</td><td><strong>Rechazo médico local.</strong> El modelo socio-accionista no cala; los especialistas españoles prefieren contrato SNS con horario fijo.</td><td>BC-1 · ABP-5</td></tr>
+        <tr><td>4</td><td><strong>Ocupación insuficiente.</strong> Sin la red de asegurados de Sanitas la captación va lenta; ocupación Año 3 &lt;65% rompe la solvencia del CapEx.</td><td>ECOMO · ABP-3</td></tr>
+        <tr><td>5</td><td><strong>Reacción política.</strong> Sindicatos médicos articulan campaña anti-inversión extranjera; presión sobre el regulador para endurecer condiciones.</td><td>KIT2 · KII-6</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ─────────── D2 ─────────── -->
+<section id="d2">
+  <div class="reveal">
+    <div class="sec-num">Entregable 02 / 07</div>
+    <h2 class="sec-title">Data Collection — OSINT &amp; Alt. Data</h2>
+    <div class="sec-frame">
+      <span><strong>Framework:</strong> TN03 — OSINT pyramid + Alternative Data</span>
+      <span><strong>Mínimo brief:</strong> 8 fuentes</span>
+      <span><strong>Cubierto:</strong> 12 fuentes verificables</span>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D2.1</div>
+      <div class="d-title">Mapa de fuentes</div>
+      <div class="d-framework">Cada fuente está clasificada por tipo, latencia («lead time») y framework alimentado, siguiendo la guía operacional del TN03.</div>
+    </div>
+    <div>
+      <p class="d-narrative">La inteligencia se construye triangulando fuentes de tres familias: documentación corporativa pública, registros regulatorios y señales débiles capturadas en prensa especializada y redes profesionales. La combinación reduce el riesgo de fabricación y permite trazabilidad auditable.</p>
+      <table>
+        <tr><th>Fuente</th><th>Tipo</th><th>Lead time</th><th>Alimenta</th></tr>
+        <tr><td>Informe anual BUPA Group</td><td>Corporativa</td><td>Anual</td><td>AMC · ECOMO</td></tr>
+        <tr><td>Memoria Sanitas</td><td>Corporativa</td><td>Anual</td><td>AMC · ECOMO</td></tr>
+        <tr><td>Mutua Madrileña — cuentas Adeslas</td><td>Corporativa</td><td>Anual</td><td>AMC</td></tr>
+        <tr><td>Fundación Espriu — memoria Asisa/HLA</td><td>Corporativa</td><td>Anual</td><td>AMC</td></tr>
+        <tr><td>BOE — resoluciones DGSFP</td><td>Regulatoria</td><td>Diaria</td><td>EWS · KIT2</td></tr>
+        <tr><td>CNMC — expedientes concentración</td><td>Regulatoria</td><td>Mensual</td><td>EWS · ABP</td></tr>
+        <tr><td>UNESPA — informes mercado seguros salud</td><td>Sectorial</td><td>Trimestral</td><td>ECOMO</td></tr>
+        <tr><td>IDIS — Instituto Desarrollo Sanitario</td><td>Sectorial</td><td>Anual</td><td>ECOMO · escenarios</td></tr>
+        <tr><td>LinkedIn — job postings &amp; transiciones</td><td>Alt. Data</td><td>Semanal</td><td>EWS · KIT1</td></tr>
+        <tr><td>Prensa financiera (Expansión, Cinco Días)</td><td>Alt. Data</td><td>Diaria</td><td>EWS · KIT1</td></tr>
+        <tr><td>Trustpilot / NPS Sanitas–Adeslas</td><td>Alt. Data</td><td>Trimestral</td><td>EWS · KIT1</td></tr>
+        <tr><td>Crunchbase — actividad M&amp;A salud</td><td>Alt. Data</td><td>Semanal</td><td>KIT3</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D2.2</div>
+      <div class="d-title">Evidencia y triangulación</div>
+      <div class="d-framework">Cada hallazgo crítico ha sido verificado por al menos dos fuentes independientes para mitigar riesgo de fuente única.</div>
+    </div>
+    <div>
+      <ul class="clean">
+        <li><strong>BUPA opera en México</strong> vía Vitamedica + Hospital Bite Medica CDMX (informe anual BUPA + prensa especializada).</li>
+        <li><strong>Sanitas gestiona BUPA ELA desde Madrid</strong> con 36% del beneficio del grupo (memoria Sanitas + 10-K BUPA).</li>
+        <li><strong>HLA Internacional (Asisa)</strong> opera en Madrid, Barcelona y Málaga — coincidencia geográfica directa con 50 Doctors (Fundación Espriu + IDIS).</li>
+        <li><strong>Adeslas no posee hospitales propios</strong>, lo que la convierte en cliente potencial antes que rival directo (Mutua Madrileña + UNESPA).</li>
+        <li><strong>Ciclo de autorización autonómico</strong> de 24–36 meses confirmado en expedientes BOE de los últimos cinco años.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── D3 ─────────── -->
+<section id="d3" class="alt">
+<div class="inner">
+  <div class="reveal">
+    <div class="sec-num">Entregable 03 / 07</div>
+    <h2 class="sec-title">AMC Analysis</h2>
+    <div class="sec-frame">
+      <span><strong>Framework:</strong> TN01 — Chen &amp; Miller (2012)</span>
+      <span><strong>Mínimo:</strong> 3 competidores con A/M/C, P(respuesta) y timeline</span>
+      <span><strong>Ponderación:</strong> A·30% + M·40% + C·30%</span>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D3.1</div>
+      <div class="d-title">Matriz Awareness · Motivation · Capability</div>
+      <div class="d-framework">El gráfico compara los tres competidores en las tres dimensiones del modelo, con la probabilidad de respuesta calculada como ponderación.</div>
+    </div>
+    <div>
+      <p class="d-narrative">El análisis revela una jerarquía clara de probabilidad de respuesta. <strong>Sanitas/BUPA combina conocimiento directo</strong> de 50 Doctors (presencia mexicana), motivación dual (defensiva y ofensiva) y capacidad financiera del grupo. Adeslas tiene capacidad pero baja motivación al carecer de red hospitalaria propia. Asisa, paradójicamente, exhibe la motivación más alta por ser el único con hospitales propios en las ciudades objetivo.</p>
+      <div class="chart-box"><canvas id="chartAMC"></canvas></div>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D3.2</div>
+      <div class="d-title">Lectura por competidor</div>
+      <div class="d-framework">Cada perfil incluye evidencia A/M/C, probabilidad de respuesta y ventana temporal estimada de reacción.</div>
+    </div>
+    <div>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="amc-1">Sanitas / BUPA · 87%</button>
+        <button class="tab-btn" data-tab="amc-2">Adeslas · 60%</button>
+        <button class="tab-btn" data-tab="amc-3">Asisa · 55%</button>
+      </div>
+      <div id="amc-1" class="tab-content active">
+        <div class="grid-3">
+          <div class="panel"><span class="panel-tag">Awareness · 5/5</span><h4>Conocimiento directo</h4><p>BUPA opera Vitamedica y Hospital Bite Medica en CDMX. Sanitas gestiona BUPA ELA desde Madrid. Conoce el modelo de 50 Doctors de primera mano.</p></div>
+          <div class="panel"><span class="panel-tag">Motivation · 4/5</span><h4>Doble incentivo</h4><p>Ingresos +12% en 2025. BUPA ELA representa 36% del beneficio del grupo: defender España es prioritario. Motivación dual defensiva y ofensiva.</p></div>
+          <div class="panel"><span class="panel-tag">Capability · 5/5</span><h4>Recursos del grupo</h4><p>Ingresos ELA 5.427M GBP, 87.000 empleados globales. Historial M&amp;A multinacional. Lanzamiento Hospital Blua con IA propia.</p></div>
+        </div>
+        <div class="quote">Probabilidad de respuesta <strong>87%</strong>. Ventana <strong>3–6 meses</strong>. Modalidad más probable: <strong>alianza estratégica (40%)</strong>. Hallazgo crítico: la ventana de negociación es estrecha y favorable.</div>
+      </div>
+      <div id="amc-2" class="tab-content">
+        <div class="grid-3">
+          <div class="panel"><span class="panel-tag">Awareness · 3/5</span><h4>Indirecto</h4><p>No opera en México. Conoce los planes de 50 Doctors únicamente por prensa pública. Sin contacto directo con el modelo.</p></div>
+          <div class="panel"><span class="panel-tag">Motivation · 3/5</span><h4>Cliente potencial</h4><p>Sin red hospitalaria propia, 50 Doctors puede integrarse como proveedor concertado. Menor urgencia de reacción agresiva.</p></div>
+          <div class="panel"><span class="panel-tag">Capability · 5/5</span><h4>Grupo financiero</h4><p>9.757M€ ingresos, 19M asegurados, respaldo CaixaBank y AXA. M&amp;A internacional reciente exitoso.</p></div>
+        </div>
+        <div class="quote">Probabilidad de respuesta <strong>60%</strong>. Ventana <strong>6–12 meses</strong>. Modalidad más probable: <strong>incorporación a red contratada (45%)</strong>. Constituye opción secundaria viable.</div>
+      </div>
+      <div id="amc-3" class="tab-content">
+        <div class="grid-3">
+          <div class="panel"><span class="panel-tag">Awareness · 3/5</span><h4>Internacionalización declarada</h4><p>Presencia en México vía Fundación Espriu. HLA Internacional opera Barcelona. Internacionalización es pilar estratégico explícito.</p></div>
+          <div class="panel"><span class="panel-tag">Motivation · 4/5</span><h4>Competidor directo</h4><p>Único de los tres con hospitales propios. HLA opera Madrid, Barcelona y Málaga: las mismas ciudades objetivo de 50 Doctors.</p></div>
+          <div class="panel"><span class="panel-tag">Capability · 3/5</span><h4>Cooperativa</h4><p>2.616M€ facturación. Modelo cooperativo ralentiza decisiones. Sin respaldo de cotizada o grupo financiero potente.</p></div>
+        </div>
+        <div class="quote">Probabilidad de respuesta <strong>55%</strong>. Ventana <strong>6–9 meses</strong>. Modalidad más probable: <strong>alianza defensiva (35%)</strong>. Posible jugador sorpresa por motivación territorial.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ─────────── D4a ─────────── -->
+<section id="d4a">
+  <div class="reveal">
+    <div class="sec-num">Entregable 04a / 07</div>
+    <h2 class="sec-title">Scenario Planning — Shell Method</h2>
+    <div class="sec-frame">
+      <span><strong>Framework:</strong> TN02 — Royal Dutch Shell (1970s)</span>
+      <span><strong>Output:</strong> Matriz 2×2, cuatro cuadrantes con probabilidad y signposts</span>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D4a.1</div>
+      <div class="d-title">Matriz 2×2</div>
+      <div class="d-framework">Ejes: actitud regulatoria (favorable / restrictiva) × postura de aseguradoras (cooperativa / agresiva). Probabilidades suman 100%.</div>
+    </div>
+    <div>
+      <p class="d-narrative">Las dos incertidumbres críticas son la disposición regulatoria autonómica a autorizar hospitales 100% extranjeros y la elección estratégica de las aseguradoras entre cooperación e integración vertical defensiva. El cruce produce cuatro escenarios diferenciados, de los cuales <strong>los escenarios A, B y C concentran el 80% de la probabilidad y todos generan valor positivo</strong>.</p>
+      <div class="quadrant">
+        <div class="q-cell">
+          <div class="q-prob">Probabilidad 35%</div>
+          <div class="q-name">A · Alianza Rápida</div>
+          <div class="q-desc">Regulación favorable y aseguradoras cooperativas. Sanitas propone JV en seis meses. Escenario más probable y objetivo de la estrategia.</div>
+          <div class="q-npv">E[NPV] · +27,2 M€</div>
+        </div>
+        <div class="q-cell">
+          <div class="q-prob">Probabilidad 15%</div>
+          <div class="q-name">B · Carrera en Abierto</div>
+          <div class="q-desc">Regulación favorable pero aseguradoras agresivas. Apertura libre con guerra de precios y retención de talento médico costosa.</div>
+          <div class="q-npv">E[NPV] · +18,0 M€</div>
+        </div>
+        <div class="q-cell">
+          <div class="q-prob">Probabilidad 30%</div>
+          <div class="q-name">C · Entrada Defensiva</div>
+          <div class="q-desc">Regulación restrictiva exige socio local. JV obligatorio. Entrada lenta (2028–2029) con riesgo regulatorio eliminado por construcción.</div>
+          <div class="q-npv">E[NPV] · +8,5 M€</div>
+        </div>
+        <div class="q-cell">
+          <div class="q-prob">Probabilidad 20%</div>
+          <div class="q-name">D · Guerra y Cierre</div>
+          <div class="q-desc">Regulación restrictiva y aseguradoras agresivas. Único escenario con valor negativo. La cláusula exit del JV limita la pérdida.</div>
+          <div class="q-npv">E[NPV] · −8,0 M€</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D4a.2</div>
+      <div class="d-title">Signposts</div>
+      <div class="d-framework">Indicadores observables que activan revisión del escenario probable en curso.</div>
+    </div>
+    <div>
+      <ul class="clean">
+        <li><strong>Activa A:</strong> resolución BOE favorable a inversión extranjera + comunicación pública positiva del Ministerio de Sanidad.</li>
+        <li><strong>Activa B:</strong> resolución BOE favorable + movimientos M&amp;A defensivos de Sanitas o Asisa (apertura propia).</li>
+        <li><strong>Activa C:</strong> nueva normativa CCAA exigiendo copropiedad local + presión política sectorial.</li>
+        <li><strong>Activa D:</strong> coincidencia de presión regulatoria + apertura competidora premium en Madrid centro.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── D4b ─────────── -->
+<section id="d4b" class="alt">
+<div class="inner">
+  <div class="reveal">
+    <div class="sec-num">Entregable 04b / 07</div>
+    <h2 class="sec-title">War Game Design</h2>
+    <div class="sec-frame">
+      <span><strong>Framework:</strong> TN02 — Red / Blue / Green Team</span>
+      <span><strong>Output:</strong> 3 equipos · 3 rondas · 2 shock events · paquetes asimétricos</span>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D4b.1</div>
+      <div class="d-title">Diseño operativo</div>
+      <div class="d-framework">Cada equipo recibe un paquete de información asimétrica para reproducir condiciones reales de incertidumbre.</div>
+    </div>
+    <div>
+      <p class="d-narrative">El war game se ejecuta sobre tres rondas trimestrales simuladas. <strong>Blue</strong> representa a 50 Doctors entrando en España; <strong>Red</strong> simula la respuesta competitiva conjunta de Sanitas/BUPA, Adeslas y Asisa; <strong>Green</strong> encarna al regulador autonómico y al observador-mercado.</p>
+      <table>
+        <tr><th>Equipo</th><th>Mandato</th><th>Paquete de información</th></tr>
+        <tr><td><strong>Blue</strong> · 50 Doctors</td><td>Maximizar valor presente neto bajo incertidumbre regulatoria. Decidir entre alianza, entrada directa o no entrada.</td><td>Modelo financiero, AMC competidores, mapa regulatorio, restricción CapEx 200M€.</td></tr>
+        <tr><td><strong>Red</strong> · Sanitas + Adeslas + Asisa</td><td>Defender cuota de mercado y asegurar pacientes. Cooperar o fragmentar respuesta.</td><td>Cuotas de mercado, estructura de costes, presión accionarial trimestral.</td></tr>
+        <tr><td><strong>Green</strong> · Regulador + mercado</td><td>Aplicar normativa, ejecutar shock events, evaluar coherencia de movimientos.</td><td>Marco normativo CCAA, escenarios políticos, shock events en sobre cerrado.</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D4b.2</div>
+      <div class="d-title">Shock events</div>
+      <div class="d-framework">Eventos exógenos que el equipo Green libera al inicio de las rondas 2 y 3 para forzar adaptación.</div>
+    </div>
+    <div>
+      <div class="grid-2">
+        <div class="panel"><span class="panel-tag">Ronda 2 · Shock #1</span><h4>Real Decreto inversión extranjera</h4><p>El gobierno aprueba un Real Decreto que exige aprobación CNMC en operaciones sanitarias con &gt;25% capital extranjero. Latencia regulatoria sube 9 meses. Blue debe replantear ruta de entrada.</p></div>
+        <div class="panel"><span class="panel-tag">Ronda 3 · Shock #2</span><h4>Anuncio Quirónsalud</h4><p>Quirónsalud anuncia inversión de 800M€ para ampliar oferta premium en Madrid y Barcelona. Red debe decidir si seguir o desmarcarse; Blue evalúa adelantar movimiento.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ─────────── D4c ─────────── -->
+<section id="d4c">
+  <div class="reveal">
+    <div class="sec-num">Entregable 04c / 07</div>
+    <h2 class="sec-title">Assumption-Based Planning</h2>
+    <div class="sec-frame">
+      <span><strong>Framework:</strong> TN02 — Dewar (RAND, 1993)</span>
+      <span><strong>Mínimo:</strong> 3 supuestos load-bearing con signposts, shaping y hedging</span>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D4c.1</div>
+      <div class="d-title">Cinco supuestos críticos</div>
+      <div class="d-framework">Cada supuesto se acompaña de probabilidad de fallo, impacto cuantificado y plan de respuesta articulado en signpost, shaping y hedging.</div>
+    </div>
+    <div>
+      <p class="d-narrative">El ABP de Dewar obliga a explicitar las premisas que sostienen el plan. <strong>Tres supuestos son load-bearing</strong>: si fallan, el caso de inversión deja de tener sentido. Dos son vulnerables: degradan retornos sin destruir la tesis.</p>
+      <table>
+        <tr><th>#</th><th>Supuesto</th><th>Tipo</th><th>P(fallo)</th><th>Impacto si falla</th></tr>
+        <tr><td>1</td><td>España autoriza la entrada sin copropiedad obligatoria</td><td><span class="pill pill-bad">Load-bearing</span></td><td>35%</td><td>Activa C/D · −8 M€ alianza</td></tr>
+        <tr><td>2</td><td>Sanitas/BUPA acepta la propuesta de JV</td><td><span class="pill pill-bad">Load-bearing</span></td><td>40%</td><td>E[NPV] cae de +14,2 M€ a −8 M€</td></tr>
+        <tr><td>3</td><td>Ocupación Año 3 ≥ 65%</td><td><span class="pill pill-bad">Load-bearing</span></td><td>45%</td><td>±16 M€ de impacto en NPV</td></tr>
+        <tr><td>4</td><td>BUPA no prioriza expansión propia en MX sobre el JV</td><td><span class="pill pill-warn">Vulnerable</span></td><td>25%</td><td>Pérdida de 25 M€ de valor diferencial</td></tr>
+        <tr><td>5</td><td>Médicos españoles adoptan el modelo socio-accionista</td><td><span class="pill pill-warn">Vulnerable</span></td><td>35%</td><td>Sin médicos no hay pacientes: modelo inviable</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D4c.2</div>
+      <div class="d-title">Acciones de moldeo y cobertura</div>
+      <div class="d-framework">Para cada load-bearing assumption: una shaping action que reduce P(fallo) y una hedging action que limita el daño si falla.</div>
+    </div>
+    <div>
+      <ul class="clean">
+        <li><strong>Supuesto 1 · Regulación.</strong> <em>Shaping:</em> ronda de presentaciones técnicas a las consejerías de Sanidad antes de iniciar trámites. <em>Hedging:</em> estructura legal con socio español minoritario preparada en stand-by.</li>
+        <li><strong>Supuesto 2 · Acuerdo Sanitas.</strong> <em>Shaping:</em> reunión CEO-to-CEO en menos de 30 días con propuesta de term sheet. <em>Hedging:</em> trabajo paralelo con Adeslas como segunda opción documentada.</li>
+        <li><strong>Supuesto 3 · Ocupación.</strong> <em>Shaping:</em> condicionar el JV a un mínimo del 20% de derivación garantizada por Sanitas. <em>Hedging:</em> plan de marketing directo a B2C asegurado activable en Año 2.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── D5 ─────────── -->
+<section id="d5" class="alt">
+<div class="inner">
+  <div class="reveal">
+    <div class="sec-num">Entregable 05 / 07</div>
+    <h2 class="sec-title">ECOMO Evaluation</h2>
+    <div class="sec-frame">
+      <span><strong>Framework:</strong> TN01 / TN02 — Exchange Value + Decision Tree</span>
+      <span><strong>Output:</strong> NPV ponderado por escenarios, EV, sensibilidades</span>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D5.1</div>
+      <div class="d-title">Cuatro opciones evaluadas</div>
+      <div class="d-framework">Cada opción se valora ponderando los cuatro escenarios del entregable 4a por sus probabilidades.</div>
+    </div>
+    <div>
+      <p class="d-narrative">El árbol de decisión cuantifica el valor esperado de cada vía estratégica. <strong>La alianza con Sanitas/BUPA es la única opción robusta</strong>: mantiene NPV positivo incluso si la probabilidad del escenario adverso D se duplica al 50%. La entrada directa destruye valor esperado en condiciones razonables.</p>
+      <div class="chart-box"><canvas id="chartNPV"></canvas></div>
+      <div class="grid-4" style="margin-top:28px;">
+        <div class="panel"><span class="panel-tag">Opción 1</span><h4>Alianza Sanitas/BUPA</h4><div class="num green">+14,2 M€</div><div class="num-sub">E[NPV]. Con WACC 8% (cond. C2) → +22,8 M€.</div></div>
+        <div class="panel"><span class="panel-tag">Opción 2</span><h4>Alianza Adeslas</h4><div class="num">+4,6 M€</div><div class="num-sub">Viable como red proveedora. Menor riesgo y menor potencial.</div></div>
+        <div class="panel"><span class="panel-tag">Opción 3</span><h4>No entrada</h4><div class="num" style="color:var(--muted);">0 M€</div><div class="num-sub">Coste de oportunidad: 14,2 M€ no capturados.</div></div>
+        <div class="panel"><span class="panel-tag">Opción 4</span><h4>Entrada directa</h4><div class="num red">−3,5 M€</div><div class="num-sub">Downside máximo en escenario D: −45 M€.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D5.2</div>
+      <div class="d-title">WACC y Exchange Value</div>
+      <div class="d-framework">El acuerdo financiero con BUPA reduce el WACC efectivo cuatro puntos porcentuales y reasigna el reparto de valor del JV.</div>
+    </div>
+    <div>
+      <div class="grid-2">
+        <div class="panel">
+          <h4>WACC Standalone — 12%</h4>
+          <div class="kv"><span>Tasa libre de riesgo (Bund 10Y)</span><span>3,5%</span></div>
+          <div class="kv"><span>Beta sector hospitalario ES</span><span>0,85×</span></div>
+          <div class="kv"><span>Prima de mercado</span><span>5,5%</span></div>
+          <div class="kv"><span>Prima expansión internacional</span><span>+2,0 pp</span></div>
+          <div class="kv"><span>Prima empresa joven sin rating</span><span>+1,5 pp</span></div>
+          <div class="kv"><span><strong style="color:var(--navy-900);">Resultado</strong></span><span><strong style="color:var(--navy-900);font-size:15px;">12,0%</strong></span></div>
+        </div>
+        <div class="panel" style="border:2px solid var(--gold);background:var(--bg-cream);">
+          <h4 style="color:var(--gold-dark);">WACC con financiación BUPA — 8%</h4>
+          <div class="kv"><span>Rating BUPA Group</span><span>A (Fitch)</span></div>
+          <div class="kv"><span>Coste deuda BUPA</span><span>Euribor + 0,8% = 4,0%</span></div>
+          <div class="kv"><span>Estructura efectiva JV</span><span>60% equity / 40% deuda</span></div>
+          <div class="kv"><span>Reducción vs. base</span><span>−4,0 pp</span></div>
+          <div class="kv"><span><strong style="color:var(--gold-dark);">Ganancia de valor</strong></span><span><strong style="color:var(--gold-dark);font-size:15px;">+8,6 M€ (+60%)</strong></span></div>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:24px;">
+        <h4>Exchange Value del JV — 160 M€ totales</h4>
+        <p style="margin-bottom:10px;">Reparto propuesto: <strong>50 Doctors retiene el 60% del valor (96 M€)</strong> por contribución operativa y modelo médico-socio; <strong>Sanitas captura el 40% (64 M€)</strong> vía red de asegurados, capacidad financiera y reducción del riesgo regulatorio.</p>
+        <p><strong>Variable crítica:</strong> ocupación Año 3. Cada 10 puntos porcentuales mueven el NPV del JV en ±16 M€.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ─────────── D6 ─────────── -->
+<section id="d6">
+  <div class="reveal">
+    <div class="sec-num">Entregable 06 / 07</div>
+    <h2 class="sec-title">Early Warning System</h2>
+    <div class="sec-frame">
+      <span><strong>Framework:</strong> TN03 — Gilad (KITs · KIIs)</span>
+      <span><strong>Mínimo:</strong> 3 KITs + dashboard de 6+ KIIs</span>
+      <span><strong>Cubierto:</strong> 3 KITs · 9 KIIs · estado actual 9/9 verde</span>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D6.1</div>
+      <div class="d-title">Key Intelligence Topics</div>
+      <div class="d-framework">Cada KIT corresponde a un riesgo estratégico identificado en los entregables previos.</div>
+    </div>
+    <div>
+      <div class="grid-3">
+        <div class="panel"><span class="panel-tag">KIT-1</span><h4>Movimientos competitivos</h4><p>Detecta señales tempranas de respuesta de Sanitas/BUPA, Adeslas y Asisa: contrataciones internacionales, comunicación corporativa y satisfacción del asegurado.</p></div>
+        <div class="panel"><span class="panel-tag">KIT-2</span><h4>Entorno regulatorio</h4><p>Vigila resoluciones BOE, comunicaciones del Ministerio de Sanidad y posibles cambios en el régimen de inversión extranjera sectorial.</p></div>
+        <div class="panel"><span class="panel-tag">KIT-3</span><h4>Movimientos M&amp;A en LATAM</h4><p>Monitoriza decisiones de BUPA y aseguradoras españolas en México y LATAM que pudieran cambiar la prioridad estratégica del JV.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="deliverable reveal">
+    <div class="d-side">
+      <div class="d-tag">D6.2</div>
+      <div class="d-title">Dashboard de KIIs</div>
+      <div class="d-framework">Cada indicador tiene fuente, frecuencia, umbrales 🟡/🔴 y propietario asignado. Estado actual: 9 / 9 verde.</div>
+    </div>
+    <div>
+      <div class="kii"><div class="kii-num">01</div><div class="kii-text"><strong>KIT1 · Job postings «international partnerships»</strong><small>LinkedIn — Sanitas / BUPA</small></div><div class="kii-freq">Mensual</div><div class="status"><span class="dot dot-ok"></span>Verde</div></div>
+      <div class="kii"><div class="kii-num">02</div><div class="kii-text"><strong>KIT1 · Menciones en prensa financiera</strong><small>Expansión, Cinco Días</small></div><div class="kii-freq">Diaria</div><div class="status"><span class="dot dot-ok"></span>Verde</div></div>
+      <div class="kii"><div class="kii-num">03</div><div class="kii-text"><strong>KIT1 · NPS / satisfacción Sanitas y Adeslas</strong><small>Trustpilot, ranking sectorial</small></div><div class="kii-freq">Trimestral</div><div class="status"><span class="dot dot-ok"></span>Verde</div></div>
+      <div class="kii"><div class="kii-num">04</div><div class="kii-text"><strong>KIT2 · Resoluciones DGS inversión extranjera</strong><small>Boletín Oficial del Estado</small></div><div class="kii-freq">Semanal</div><div class="status"><span class="dot dot-ok"></span>Verde</div></div>
+      <div class="kii"><div class="kii-num">05</div><div class="kii-text"><strong>KIT2 · Cambios cobertura mínima / tarifas</strong><small>UNESPA, CCAA</small></div><div class="kii-freq">Trimestral</div><div class="status"><span class="dot dot-ok"></span>Verde</div></div>
+      <div class="kii"><div class="kii-num">06</div><div class="kii-text"><strong>KIT2 · Declaraciones públicas Sanidad</strong><small>Ministerio + portavoces autonómicos</small></div><div class="kii-freq">Mensual</div><div class="status"><span class="dot dot-ok"></span>Verde</div></div>
+      <div class="kii"><div class="kii-num">07</div><div class="kii-text"><strong>KIT3 · Anuncios apertura BUPA en MX/LATAM</strong><small>Comunicaciones BUPA Group</small></div><div class="kii-freq">Mensual</div><div class="status"><span class="dot dot-ok"></span>Verde</div></div>
+      <div class="kii"><div class="kii-num">08</div><div class="kii-text"><strong>KIT3 · M&amp;A Adeslas / Asisa en MX/LATAM</strong><small>Crunchbase, prensa sectorial</small></div><div class="kii-freq">Mensual</div><div class="status"><span class="dot dot-ok"></span>Verde</div></div>
+      <div class="kii"><div class="kii-num">09</div><div class="kii-text"><strong>KIT3 · Resultados financieros BUPA ELA</strong><small>Informes semestrales BUPA</small></div><div class="kii-freq">Semestral</div><div class="status"><span class="dot dot-ok"></span>Verde</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────── D7 ─────────── -->
+<section id="d7" class="alt">
+<div class="inner">
+  <div class="reveal">
+    <div class="sec-num">Entregable 07 / 07</div>
+    <h2 class="sec-title">Strategic Recommendation</h2>
+    <div class="sec-frame">
+      <span><strong>Síntesis integradora:</strong> Go / No-Go / Conditional Go</span>
+      <span><strong>Output:</strong> Decisión + nivel de confianza + 3 evidencias + acciones de cobertura</span>
+    </div>
+  </div>
+
+  <div class="rec-box reveal">
+    <div class="rec-verdict">Recomendación final</div>
+    <div class="rec-headline">Conditional Go — <em>Joint Venture con Sanitas/BUPA</em></div>
+    <div class="rec-confidence">Nivel de confianza · <strong>72%</strong></div>
+
+    <p class="rec-narrative">
+      Recomendamos avanzar con la entrada en España exclusivamente bajo la modalidad de joint venture con Sanitas/BUPA, condicionada a cuatro cláusulas que mitigan los tres supuestos load-bearing del entregable 4c. El valor esperado positivo (+14,2 M€) se sostiene en los escenarios A, B y C, que concentran el 80% de la masa de probabilidad. La cláusula de salida convierte el escenario D en pérdida acotada en lugar de catastrófica.
+    </p>
+
+    <div class="rec-evidence">
+      <h4>Tres evidencias principales</h4>
+      <ul>
+        <li><strong>AMC Sanitas/BUPA = 87%.</strong> Concuerda con el escenario A (35%) y abre ventana de negociación de 3–6 meses, suficiente para cerrar term sheet antes de que el competidor reaccione unilateralmente.</li>
+        <li><strong>ECOMO ponderado por escenarios = +14,2 M€.</strong> Única opción con valor esperado robusto frente a sensibilidades. La financiación BUPA añade +8,6 M€ por reducción del WACC.</li>
+        <li><strong>EWS dashboard 9/9 verde.</strong> No hay señales tempranas de cambio en el entorno regulatorio o competitivo que invaliden la tesis en el horizonte de seis meses.</li>
+      </ul>
+    </div>
+
+    <div class="rec-conditions">
+      <div class="rec-cond"><div class="rec-cond-tag">Condición C1</div><p><strong>Derivación garantizada.</strong> Sanitas garantiza al menos un 20% de derivación de asegurados, lo que sostiene la ocupación Año 3 por encima del 65%.</p></div>
+      <div class="rec-cond"><div class="rec-cond-tag">Condición C2</div><p><strong>Financiación BUPA.</strong> BUPA aporta el 40% del CapEx como deuda corporativa al rating del grupo, llevando el WACC efectivo al 8%.</p></div>
+      <div class="rec-cond"><div class="rec-cond-tag">Condición C3</div><p><strong>Pre-acuerdo CCAA.</strong> Pre-acuerdo informal con la Consejería de Sanidad de Madrid antes de iniciar obras o anunciar el proyecto públicamente.</p></div>
+      <div class="rec-cond"><div class="rec-cond-tag">Condición C4</div><p><strong>Cláusula exit.</strong> En caso de escenario D, BUPA compra el 60% del JV a precio acordado, limitando la pérdida máxima de 50 Doctors a 8 M€.</p></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ─────────── SISTEMA ─────────── -->
+<section id="sistema">
+  <div class="reveal">
+    <div class="sec-num">Sistema agéntico — Phase C</div>
+    <h2 class="sec-title">Arquitectura multi-agente</h2>
+    <div class="sec-frame">
+      <span><strong>Frameworks técnicos:</strong> TN10 (ReAct + Tools) · TN11 (Multi-agent) · TN12 (Anti-hallucination)</span>
+      <span><strong>Capacidades demostradas:</strong> 5 de 7 del checklist</span>
+    </div>
+  </div>
+
+  <p class="d-narrative reveal" style="max-width:820px;">
+    El prototipo automatiza dos fases del CI Pathway: la inteligencia competitiva (entregable 3) y el sistema de alerta temprana (entregable 6). Está organizado en dos pipelines secuenciales de cuatro agentes cada uno, con scoring de confianza, atribución obligatoria de fuentes y detección de inconsistencias. La ejecución periódica está automatizada vía GitHub Actions semanal.
+  </p>
+
+  <div class="reveal">
+    <h3 class="serif" style="font-size:22px;font-weight:600;margin:32px 0 18px;letter-spacing:-.01em;color:var(--navy-900);">Pipeline F2 — Intelligence AMC</h3>
+    <div class="agents" style="margin-bottom:32px;">
+      <div class="agent"><div class="a-num">AGENT 01</div><div class="a-name">OSINT</div><div class="a-role">Recopila siete fuentes públicas verificadas: webs corporativas, informes anuales, registros DGSFP y Fundación Espriu.</div></div>
+      <div class="agent"><div class="a-num">AGENT 02</div><div class="a-name">Alt. Data</div><div class="a-role">Procesa cinco señales débiles: prensa financiera, noticias 50 Doctors, M&amp;A BUPA, turismo médico y job postings.</div></div>
+      <div class="agent"><div class="a-num">AGENT 03</div><div class="a-name">AMC</div><div class="a-role">Calcula puntuaciones A/M/C con la fórmula ponderada A·30% + M·40% + C·30%, asignando confidence score por hallazgo.</div></div>
+      <div class="agent"><div class="a-num">AGENT 04</div><div class="a-name">Síntesis</div><div class="a-role">Genera matriz comparativa, ranking competitivo y conclusiones en formato texto + JSON exportable.</div></div>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <h3 class="serif" style="font-size:22px;font-weight:600;margin:32px 0 18px;letter-spacing:-.01em;color:var(--navy-900);">Pipeline F5 — Early Warning System</h3>
+    <div class="agents" style="margin-bottom:32px;">
+      <div class="agent"><div class="a-num">AGENT 05</div><div class="a-name">KIT</div><div class="a-role">Define los tres Key Intelligence Topics y los enlaza con los supuestos load-bearing del entregable 4c.</div></div>
+      <div class="agent"><div class="a-num">AGENT 06</div><div class="a-name">EWS</div><div class="a-role">Construye el dashboard de nueve KIIs con umbrales y lógica de escalado (umbral de activación = 2 KIIs).</div></div>
+      <div class="agent"><div class="a-num">AGENT 07</div><div class="a-name">Recommend</div><div class="a-role">Genera la recomendación Conditional Go con evidencias cuantitativas, condiciones operativas y acciones de cobertura.</div></div>
+      <div class="agent"><div class="a-num">AGENT 08</div><div class="a-name">Síntesis</div><div class="a-role">Integra todo en informe ejecutivo y JSON exportable. Push automático al repositorio de GitHub.</div></div>
+    </div>
+  </div>
+
+  <div class="grid-2 reveal">
+    <div class="panel">
+      <h4>Capacidades TN10–TN12 demostradas</h4>
+      <ul class="clean" style="margin-top:8px;">
+        <li><strong>ReAct loop</strong> (TN10) — razonamiento + tool call + observación + iteración.</li>
+        <li><strong>Tool use</strong> (TN10) — APIs públicas y scraping estructurado.</li>
+        <li><strong>Multi-agent collaboration</strong> (TN11) — pipeline secuencial de 4+4 agentes.</li>
+        <li><strong>Confidence scoring</strong> (TN12) — High / Medium / Low por hallazgo.</li>
+        <li><strong>Anti-hallucination</strong> (TN12) — atribución obligatoria de fuentes.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h4>Ejecución y autonomía</h4>
+      <pre style="background:var(--navy-900);color:var(--gold-soft);padding:16px;border-radius:6px;font-size:12px;overflow:auto;margin:14px 0;">$ python agentic_intelligence_system.py --export json
+$ python agentic_ews_system.py --check-alerts</pre>
+      <p style="font-size:13.5px;color:var(--ink-3);">Programación automática vía GitHub Actions: <code style="background:var(--bg-cream);padding:1px 6px;border-radius:3px;">cron '0 8 * * MON'</code> ejecuta el EWS cada lunes 08:00 UTC, hace commit del JSON resultante y dispara la actualización del dashboard.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="f-brand">50 Doctors México<span> · </span>Agentic Competitive Intelligence System</div>
+  <div class="f-meta">Final Project · Corporate Intelligence Course · Universidad Francisco de Vitoria · 2025–2026</div>
+  <a href="https://github.com/adrianjulve-lang/Inteligencia-Empresarial-II---Final-Project">Ver repositorio en GitHub →</a>
+</footer>
+
+<script>
+  // ── PROGRESS BAR ─────────────────────────────────
+  const bar = document.getElementById('progressBar');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    bar.style.width = scrolled + '%';
+  });
+
+  // ── REVEAL ON SCROLL ─────────────────────────────
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // ── TABS ──────────────────────────────────────────
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab;
+      const wrapper = btn.closest('div');
+      wrapper.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const parent = wrapper.parentElement;
+      parent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(target).classList.add('active');
+    });
+  });
+
+  // ── CHART CONFIG ──────────────────────────────────
+  Chart.defaults.font = { family: "'Inter', sans-serif", size: 12, weight: '400' };
+  Chart.defaults.color = '#1f2937';
+  Chart.defaults.borderColor = '#e5e7eb';
+
+  // ── CHART AMC ─────────────────────────────────────
+  new Chart(document.getElementById('chartAMC'), {
+    type: 'bar',
+    data: {
+      labels: ['Sanitas / BUPA', 'Adeslas', 'Asisa'],
+      datasets: [
+        { label: 'Awareness',     data: [5,3,3], backgroundColor: '#0f2444', borderRadius: 4, barPercentage: .75 },
+        { label: 'Motivation',    data: [4,3,4], backgroundColor: '#1f4d8a', borderRadius: 4, barPercentage: .75 },
+        { label: 'Capability',    data: [5,5,3], backgroundColor: '#c8a96a', borderRadius: 4, barPercentage: .75 },
+        { label: 'P(respuesta) %', data: [87,60,55], type: 'line', yAxisID: 'y2',
+          borderColor: '#a08648', backgroundColor: '#a08648', tension:.32,
+          pointRadius:7, pointBackgroundColor:'#fff', pointBorderColor:'#a08648', pointBorderWidth:2.5, borderWidth:2.5 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 1100, easing: 'easeOutCubic' },
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 18, boxWidth: 14, font: { size: 11.5, weight: '500' }, usePointStyle: true } },
+        tooltip: { backgroundColor: '#0a1628', padding: 10, cornerRadius: 6, titleFont: { size: 12 }, bodyFont: { size: 12 } }
+      },
+      scales: {
+        y: { beginAtZero: true, max: 5, title: { display: true, text: 'Puntuación (1–5)', font: { size: 11, weight: '500' } }, grid: { color: '#f1f3f5' } },
+        y2: { position: 'right', max: 100, title: { display: true, text: 'P(respuesta) %', font: { size: 11, weight: '500' } }, grid: { drawOnChartArea: false } },
+        x: { grid: { display: false }, ticks: { font: { weight: '600', size: 12 } } }
+      }
+    }
+  });
+
+  // ── CHART NPV ─────────────────────────────────────
+  new Chart(document.getElementById('chartNPV'), {
+    type: 'bar',
+    data: {
+      labels: ['Alianza Sanitas', 'Alianza Adeslas', 'No entrada', 'Entrada directa'],
+      datasets: [{
+        label: 'E[NPV] · M€',
+        data: [14.2, 4.6, 0, -3.5],
+        backgroundColor: ['#0e7c4a','#1f4d8a','#9ca3af','#b91c1c'],
+        borderRadius: 6,
+        borderSkipped: false,
+        barPercentage: .65
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 1100, easing: 'easeOutCubic' },
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: '#0a1628', padding: 10, cornerRadius: 6, callbacks: { label: ctx => ctx.parsed.y + ' M€' } }
+      },
+      scales: {
+        y: { title: { display: true, text: 'Millones de euros', font: { size: 11, weight: '500' } }, grid: { color: '#f1f3f5' } },
+        x: { grid: { display: false }, ticks: { font: { weight: '600', size: 12 } } }
+      }
+    }
+  });
+</script>
+</body>
+</html>
